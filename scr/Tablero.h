@@ -9,7 +9,5 @@ class Tablero
 	int azul;
 	int verde;
 public: 
-	void DibujaTablero(float tam);
-	void DibujaCuadrado(float x, float y, float z,float tam);
-	void SetColor(int, int);
+	Tablero();
 };
