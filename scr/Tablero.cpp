@@ -13,6 +13,7 @@ void OnTimer(int value); //esta funcion sera llamada cuando transcurra una tempo
 void OnKeyboardDown(unsigned char key, int x, int y); //cuando se pulse una tecla	
 
 
+
 int main(int argc, char* argv[])
 {
 	//Inicializar el gestor de ventanas GLUT
@@ -34,6 +35,7 @@ int main(int argc, char* argv[])
 	glutDisplayFunc(OnDraw);
 	glutTimerFunc(25, OnTimer, 0);//le decimos que dentro de 25ms llame 1 vez a la funcion OnTimer()
 	glutKeyboardFunc(OnKeyboardDown);
+	
 
 	//pasarle el control a GLUT,que llamara a los callbacks
 	glutMainLoop();
@@ -58,6 +60,8 @@ void OnDraw(void)
 
 	//aqui es donde hay que poner el codigo de dibujo
 	piezas.ImprimePiezas();
+	tablero.GrisOscuro->draw();
+	tablero.tab->draw();
 	
 	
 	//no borrar esta linea ni poner nada despues
@@ -66,7 +70,26 @@ void OnDraw(void)
 void OnKeyboardDown(unsigned char key, int x_t, int y_t)
 {
 	//poner aqui el código de teclado
+	switch (key)
+	{
+	case ' ':
 
+	case 'd':
+		tablero.x += 5.0;
+		break;
+	case 'a':
+		tablero.x -= 5.0;
+		break;
+	case 'w':
+		tablero.y += 5.0;
+		break;
+	case 's':
+		tablero.y -= 5.0;
+		break;
+	}
+	tablero.CheckPosition(tablero.x, tablero.y);
+	tablero.GrisOscuro->setPos(tablero.x, tablero.y);
+	
 	glutPostRedisplay();
 }
 
@@ -77,4 +100,11 @@ void OnTimer(int value)
 	//no borrar estas lineas
 	glutTimerFunc(25, OnTimer, 0);
 	glutPostRedisplay();
+}
+
+void Tablero::CheckPosition(float x,float y) {
+	if (x < -20.0)tablero.x = -17.5;
+	else if (x > 20.0)tablero.x = 17.5;
+	else if (y < -20.0)tablero.y = -17.5;
+	else if (y > 20.0)tablero.y = 17.5;
 }
