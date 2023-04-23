@@ -42,5 +42,6 @@ void Piezas::ImprimePiezas() {
 	ReyNegro->draw();
 	ReinaBlanco->draw();
 	ReinaNegro->draw();
-	tab->draw();
+	
 }
+
