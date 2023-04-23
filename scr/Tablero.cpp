@@ -1,7 +1,9 @@
 #include "freeglut.h"
 #include <Tablero.h>
+#include <Piezas.h>
 
 Tablero tablero;
+Piezas piezas;
 
 //los callback, funciones que seran llamadas automaticamente por la glut
 //cuando sucedan eventos
@@ -39,6 +41,8 @@ int main(int argc, char* argv[])
 	return 0;
 }
 
+Tablero::Tablero() {}
+
 void OnDraw(void)
 {
 	//Borrado de la pantalla	
@@ -53,9 +57,8 @@ void OnDraw(void)
 		0.0, 1.0, 0.0);      // definimos hacia arriba (eje Y)    
 
 	//aqui es donde hay que poner el codigo de dibujo
-	glDisable(GL_LIGHTING);
-	tablero.DibujaTablero(5.0);
-	glEnable(GL_LIGHTING);
+	piezas.ImprimePiezas();
+	
 	
 	//no borrar esta linea ni poner nada despues
 	glutSwapBuffers();
@@ -75,43 +78,3 @@ void OnTimer(int value)
 	glutTimerFunc(25, OnTimer, 0);
 	glutPostRedisplay();
 }
-
-void Tablero::DibujaCuadrado(float x, float y, float z,float tam) {
-
-	glBegin(GL_POLYGON);
-	glVertex3f(x, y, z);
-	glVertex3f(x + tam, y, z);
-	glVertex3f(x + tam, y + tam, z);
-	glVertex3f(x, y + tam, z);
-	glEnd();
-	glutDisplayFunc(OnDraw);
-	glutTimerFunc(25, OnTimer, 0);
-
-}
-void Tablero::DibujaTablero(float tam) {
-	float z = 0.0, movX = tam, movY = tam;
-
-	for (int columna = 0; columna < 8; columna++) {
-		movX = 0.0;
-		movY = tam * columna;
-		for (int fila = 0; fila < 8; fila++) {
-			SetColor(columna, fila);
-			tablero.DibujaCuadrado(x + movX, y + movY, 0.0, 5.0);
-			movX += tam;
-		}
-		movY += tam;
-	}
-};
-
-void Tablero::SetColor(int columna, int fila) {
-	if (columna % 2 == 0) {
-		if (fila % 2 == 0) { rojo = 224; verde = 180; azul = 143; }
-		else rojo = verde = azul = 255;
-	}
-	else {
-		if (fila % 2 == 0)rojo = verde = azul = 255;
-		else { rojo = 224; verde = 180; azul = 143; }
-	}
-	glColor3ub(rojo, verde, azul);
-};
-
