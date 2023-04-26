@@ -1,9 +1,6 @@
 #include "Casilla.h"
 #include <freeglut.h>
 
-Casilla::Casilla() :tam(1.0), pos(0.0, 0.0) {
-	DibujaCasilla(pos);
-}
 void Casilla::DibujaCasilla(Vector posicion) {
 
 	glBegin(GL_POLYGON);
@@ -14,3 +11,8 @@ void Casilla::DibujaCasilla(Vector posicion) {
 	glEnd();
 
 }
+
+void Casilla::SetColor(unsigned char r ,unsigned char v, unsigned char a) {
+	this->color.SetColor(r, v, a);
+}
+

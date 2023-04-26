@@ -13,6 +13,6 @@ public:
 	Tablero(); // Constructor por defecto de tablero
 
 	void DibujaTablero();
-	void SetColor(int rojo, int verde,int azul);
-	void Inicializa();
+	
+
 };
