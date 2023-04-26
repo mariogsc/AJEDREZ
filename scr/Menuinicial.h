@@ -10,14 +10,19 @@ class menuinicial
 
 
 public:
+// PONER TODOS ESTOS COMO PRIVADOS Y CREAR UNA FUNCIÓN QUE SEA GETOPTION Y SETOPTION COMPROBAR EN SETOPTION QUE NO SE PASA DE LOS VALORES DEFINIDOS (ENCAPSULAMIENTO)
+// ¿SE PUEDEN PONER LOS SPRITES PRIVADOS?
 	int opcion = 1;
-	void dibuja();
-	void flecha(int key);
 	Sprite* menu = new Sprite("imagenes/menu1.png", 0.0, 0.0, 15.0, 15.0);
 	Sprite* menu2 = new Sprite("imagenes/menu2.png", 0.0, 0.0, 15.0, 15.0);
 	Sprite* realsociedad = new Sprite("imagenes/realsociedad.png", 0.0, 0.0, 15.0, 15.0);
 	Sprite* atletico = new Sprite("imagenes/atletico.png", 0.0, 0.0, 15.0, 15.0);
 	Sprite* espana = new Sprite("imagenes/espana.png", 0.0, 0.0, 15.0, 15.0);
+	
+	
+	void dibuja();
+	void flecha(int key);
+	
 
 
 };
