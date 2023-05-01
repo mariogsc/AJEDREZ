@@ -3,7 +3,7 @@
 
 Casilla::Casilla() :tam(1.0), pos(0.0, 0.0) {
 	for (int i = 0; i < 32; i++) {
-		p[i] = nullptr; // Inicializamos todos los punteros de las fichas apuntando a nada (nullptr)
+		p = nullptr; // Inicializamos todos los punteros de las fichas apuntando a nada (nullptr)
 	}
 }
 void Casilla::DibujaCasilla(Vector posicion) {
