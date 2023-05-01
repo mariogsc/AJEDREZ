@@ -42,4 +42,8 @@ void Tablero::DibujaTablero(ColorCasilla color1, ColorCasilla color2) {
 			aux.x += tam;
 		}
 	}
+	for (int j = 0; j < NCasillas; j++)
+	{
+		casilla[1][j].setPieza(new Peon(Vector(1, j), Piezas::NEGRO));
+	}
 }
