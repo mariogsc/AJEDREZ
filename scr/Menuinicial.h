@@ -15,9 +15,9 @@ public:
 	int opcion = 1;
 	Sprite* menu = new Sprite("imagenes/menu1.png", 0.0, 0.0, 15.0, 15.0);
 	Sprite* menu2 = new Sprite("imagenes/menu2.png", 0.0, 0.0, 15.0, 15.0);
-	Sprite* realsociedad = new Sprite("imagenes/realsociedad.png", 0.0, 0.0, 15.0, 15.0);
-	Sprite* atletico = new Sprite("imagenes/atletico.png", 0.0, 0.0, 15.0, 15.0);
-	Sprite* espana = new Sprite("imagenes/espana.png", 0.0, 0.0, 15.0, 15.0);
+	Sprite* realsociedad = new Sprite("imagenes/fondorealsociedad.png", 0.0, 0.0, 15.0, 15.0);
+	Sprite* atletico = new Sprite("imagenes/fondoatletico.png", 0.0, 0.0, 15.0, 15.0);
+	Sprite* espana = new Sprite("imagenes/fondoespaña.png", 0.0, 0.0, 15.0, 15.0);
 	
 	
 	void dibuja();
