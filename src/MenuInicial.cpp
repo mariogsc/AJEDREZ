@@ -19,89 +19,88 @@ MenuInicial::MenuInicial() {
 	espana->setPos(2.0, 2.0);
 }
 
-MenuInicial::~MenuInicial() {
-	menu1->~Sprite();
-	menu2->~Sprite();
-}
-
 void MenuInicial::flecha(int key) {
+	if(comienzo==false){
 	switch (key) {
 
-
 	case GLUT_KEY_UP:
-		if (opcion == 2) {
-			opcion -= 1;
+		if (modo == 1 && equipo==-1) {
+			modo = 0;
 		}
 		break;
 
 
 	case GLUT_KEY_DOWN:
-		if (opcion == 1) {
-			opcion += 1;
+		if (modo == 0 && equipo == -1) {
+			modo = 1;
 		}
-		break;
-
-	case GLUT_KEY_LEFT:
-		if (opcion == 6) {
-			opcion = 8;
-		}
-		else if ((opcion == 7) || (opcion == 8)) opcion -= 1;
 		break;
 
 	case GLUT_KEY_RIGHT:
-		if (opcion == 8) {
-			opcion = 6;
+		if (equipo == 0 ) {
+			equipo = 1;
 		}
-		else if ((opcion == 6) || (opcion == 7)) opcion += 1;
+		else if (equipo == 1 )
+			equipo = 2;
+		else if (equipo == 2)
+			equipo = 0;
+		break;
+
+	case GLUT_KEY_LEFT:
+		if (equipo == 2) {
+			equipo = 1;
+		}
+		else if (equipo == 1)
+			equipo = 0;
+		else if (equipo == 0)
+			equipo = 2;
 		break;
 
 	case 13:
-		if (opcion == 6) {
-			opcion = 10;
+		if (modo==1 && equipo==-1) {
+			exit(0);
 		}
-		if (opcion == 1) { //si le damos cuando estamos en iniciar el juego
-			opcion = 6;   // Selecciona tu equipo, se pone la real como primera opcion
+		if (modo == 0 && equipo == -1) { //si le damos cuando estamos en iniciar el juego
+			equipo = 0;   // Selecciona tu equipo, se pone la real como primera opcion
+			delete menu1; 
+			delete menu2;
+			break;
 		}
-		if (opcion == 7) {
-			opcion = 11;
+		// Seleccion de equipo se puede hacer con sobrecarga del espacio
+		if (equipo >= 0 && comienzo ==false && modo==0) { 
+			delete realsociedad;
+			delete espana;
+			delete atletico;
+			comienzo = true;
 		}
-		if (opcion == 8) {
-			opcion = 12;
-		}
-		if (opcion == 2) exit(0);
-
-
 		break;
 	}
+	}
+	
 }
 
-
-
-
-int MenuInicial::dibuja()
+void MenuInicial::dibuja()
 {
 //aqui es donde hay que poner el codigo de dibujo
 
 
-	if (opcion == 1) {
+	if (modo == 0 && equipo==-1) { // IMPORTANTE-> hay que poner doble condicion si no intentará dibujar despues de hacer el delete del sprite
 		menu1->draw();
 	}
 
-	if (opcion == 2) {
+	if (modo == 1 && equipo == -1) {
 		menu2->draw();
 	}
-
-	if (opcion == 6) {
+	
+	if (equipo == 0 && comienzo == false) {
 		realsociedad->draw();
 	}
 
-	if (opcion == 7) {
+	if (equipo==1 && comienzo == false) {
 		atletico->draw();
 	}
 
-	if (opcion == 8) {
+	if (equipo==2 && comienzo == false) {
 		espana->draw();
 	}
-
-	return opcion;
 }
