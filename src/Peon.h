@@ -12,7 +12,9 @@ class Peon:public Piezas { // CREAMOS UNA CLASE PEON POR HERENCIA DE LA CLASE PI
 public:
 	Peon(Vector p, COLOR c) { tipo = Piezas::PEON, color = c, posicion = p; } // Constructor para inicializar las variables
 	Sprite ImagenPeonN{ "imagenes/PeonNegro.png", 0, 0, tam, tam };
-	float añadir = 2.0; // Casillas que se puede mover el peon
+	//float añadir = 2.0; // Casillas que se puede mover el peon
+	bool primeravez=true;
+	
 	void Dibuja(); 
 	void mueve();
 	void PosibleMov();
