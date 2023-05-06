@@ -6,15 +6,14 @@ using ETSIDI::Sprite;
 #include <ColorCasilla.h>
 #include <Peon.h>
 #include <Vector.h>
-
-#define MAX_PIEZAS 32
+#include <NoPieza.h>
 
 class Tablero
 {
 	const int NCasillas = 8; // Creamos una constante del numero de casillas 
 	Casilla** casilla; // Puntero doble de tipo casilla para recorrer las casillas
 	Casilla c;
-	Piezas* lista[MAX_PIEZAS]; // Puntero de tipo Piezas para poder imprimirlas
+	Piezas* lista[64]; // Puntero de tipo Piezas para poder imprimirlas
 	int NPiezas;
 public: 
 	Tablero(); // Constructor por defecto de tablero
@@ -24,5 +23,4 @@ public:
 	void inicializa();
 	bool agregar(Piezas* p);
 	void MueveCursor(unsigned char key);
-	void CheckPosition();
 };
