@@ -13,7 +13,7 @@ public:
 	Casilla() ; //Constructor de casilla por defecto inicializa longitud a 1, posicion al 0.0 y color por defecto(0,0,0) y la dibuja
 	
 	// NO HACE FALTA DESTRUCTOR PORQUE LAS CASILLAS NO SE DESTRUYEN DURANTE LA PARTIDA SOLO AL FINAL
-	void DibujaCasilla(Vector posicion);
+	void DibujaCasilla(Vector posicion, float x);
 	
 	void CreaPieza(int x, int y, int type, Piezas::COLOR color);
 	Casilla(ColorCasilla c) { color = c; }
