@@ -14,6 +14,10 @@ public:
 	
 	// NO HACE FALTA DESTRUCTOR PORQUE LAS CASILLAS NO SE DESTRUYEN DURANTE LA PARTIDA SOLO AL FINAL
 	void DibujaCasilla(Vector posicion);
+	
+	void CreaPieza(int x, int y, int type, Piezas::COLOR color);
+	Casilla(ColorCasilla c) { color = c; }
+	
 	void SetPos(Vector p) { this->pos = p; } // Se asigna el valor pos al introducido en la función (encapsulamieto)
 	Vector GetPos() { return pos; } // Se retorna el Vectro pos (encapsulamiento)
 	void SetColor(unsigned char r ,unsigned char v, unsigned char a);
@@ -21,5 +25,7 @@ public:
 	void DibujaPiezas();
 	//void creaPieza(int x, int y, int tipo, Piezas::COLOR color);
 	Piezas* setPieza(Piezas* pieza) { this->p = p;	return p; }
+	
+	friend class Tablero;
 };
 
