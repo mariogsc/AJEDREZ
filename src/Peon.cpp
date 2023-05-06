@@ -23,17 +23,34 @@ void Peon::Dibuja() { // Dibujamos el peon
 bool Peon::CheckMov(Vector v) {
 	bool retorno= false;
 	
-	//Comprovar si es primer movimiento o no
+	//Comprobvar si es primer movimiento o no
+	
+	if (primeravez) {
+		if (color == NEGRO && v.x == posicion.x && ( v.y== posicion.y + 1.0 || v.y == posicion.y + 2.0)) {
+			retorno = true;
+			primeravez = false;
 
-	if (color == NEGRO && v.x == posicion.x && v.y == posicion.y + añadir) {
-		retorno = true;
-		añadir = 1.0f;
+		}
+		else if (color == BLANCO && v.x == posicion.x && (v.y == posicion.y - 1.0 || v.y == posicion.y - 2.0)){
+			retorno = true;
+			primeravez = false;
+		}
+		return retorno;
 	}
-	else if (color == BLANCO && v.x == posicion.x && v.y == posicion.y - añadir) { 
-		retorno = true;
-		añadir = 1.0f;
+	else {
+
+		if (color == NEGRO && v.x == posicion.x && v.y == posicion.y + 1) {
+			retorno = true;
+			
+		}
+		else if (color == BLANCO && v.x == posicion.x && v.y == posicion.y - 1) {
+			retorno = true;
+			
+		}
+
 	}
 	return retorno;
+	
 }
 
 
