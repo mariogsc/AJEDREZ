@@ -21,7 +21,7 @@ Tablero::Tablero() {
 	inicializa();
 }
 
-// FUNCIÓN PARA DIBUJAR EL TABLERO UTILIZANDO UNA MATRIZ DE CASILLAS Y ELEGIR EL COLOR SEGÚN EL EQUIPO SELECCIONADO
+// FUNCIÃ“N PARA DIBUJAR EL TABLERO UTILIZANDO UNA MATRIZ DE CASILLAS Y ELEGIR EL COLOR SEGÃšN EL EQUIPO SELECCIONADO
 void Tablero::DibujaTablero(ColorCasilla color1, ColorCasilla color2) {
 	float tam= 1.0; //Definimos variables auxiliares para ir desplazando la casilla
 	Vector aux{0.0,0.0};
@@ -58,47 +58,43 @@ void Tablero::DibujaTablero(ColorCasilla color1, ColorCasilla color2) {
 
 
 // FUNCIONES PARA EL MANEJO DEL VECTOR DE PIEZAS
+
+// FUNCIONES PARA EL MANEJO DEL VECTOR DE PIEZAS
 void Tablero::DibujaPiezas()
 {
-	for (int i = 0; i <= NCasillas; i++)// no se puede añadir hasta que se definan todas las piezas o hasta que se cree un tipo de piezas pieza vacía y se inicialice el vector
+	for (int i = 0; i <NCasillas*NCasillas; i++)
 	{
 		lista[i]->Dibuja();
 	}
 }
 
-void Tablero::mueve() {
-	
-	//for (int i = 0; i < N_PIEZAS; i++)
-		// lista[i]->mueve(v); 
-	//lista[0]->mueve({ 2.0,2.0 });
-	
-}
 
 bool Tablero::agregar(Piezas* p)
 {
-	if (NPiezas < MAX_PIEZAS)
+	if (NPiezas < NCasillas * NCasillas)
 		lista[NPiezas++] = p; 
 	else
-		return false; // capacidad máxima alcanzada
+		return false; // capacidad mÃ¡xima alcanzada
 	return true;
 }
 
-void Tablero::inicializa() {  // inicializacion de todas las fichas e inclusión en el vector de piezas
-	//for (int i = 0; i < 2; i++) {
-		/*Peon* p1 = new Peon(Vector{ 0.0,1.0 }, Piezas::COLOR::BLANCO);
-		agregar(p1);
-		Peon* p2 = new Peon(Vector{ 1.0,1.0 }, Piezas::COLOR::BLANCO);
-		agregar(p2);
-		Peon* p3 = new Peon(Vector{ 2.0,1.0 }, Piezas::COLOR::BLANCO);
-		agregar(p3);*/
-	//}
-
-		for (float i = 0; i <= NCasillas; i++)
+void Tablero::inicializa() {  // inicializacion de todas las fichas e inclusiÃ³n en el vector de piezas
+	Piezas* aux;
+		for (float j = 0.0; j < NCasillas; j++)
 		{
-			Peon* aux = new Peon(Vector{ i, 1.0 }, Piezas::COLOR::NEGRO);
-			agregar(aux);
+			for (float i = 0.0; i < NCasillas; i++) {
+				if (j == 1.0) {
+					aux = new Peon(Vector{ i,j }, Piezas::COLOR::NEGRO);
+				}
+				else if (j == 6.0) {
+					aux = new Peon(Vector{ i, j }, Piezas::COLOR::BLANCO);
+				}
+				else {
+				aux = new NoPieza(Vector{ i,j });
+				}
+				agregar(aux);
+			}	
 		}
-
 }
 
 
@@ -118,17 +114,16 @@ void Tablero::MueveCursor(unsigned char key) {
 		c.pos.x -= 1;
 		break;
 	case ' ':
-		for (int i = 0; i <= NCasillas; i++)
+		for (int i = 0; i < NCasillas * NCasillas; i++)
 		{
-			if (c.pos.x  == lista[i]->posicion.x && c.pos.y == lista[i]->posicion.y)
+			if (c.pos.x  == lista[i]->posicion.x && c.pos.y == lista[i]->posicion.y && lista[i]->tipo !=Piezas::TIPO::NT)
 			{
 				lista[i]->seleccionado = true;
 			}
 		}
 		break;
 	case 13:
-		
-		for(int i=0;i<=NCasillas;i++)
+		for(int i=0;i< NCasillas * NCasillas;i++)
 			{
 				if (lista[i]->CheckMov(c.pos) == true && lista[i]->seleccionado==true) 
 				{
