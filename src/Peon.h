@@ -13,7 +13,7 @@ public:
 	Peon(Vector p, COLOR c) { tipo = Piezas::PEON, color = c, posicion = p; } // Constructor para inicializar las variables
 	Sprite ImagenPeonN{ "imagenes/PeonNegro.png", 0, 0, tam, tam };
 	//float añadir = 2.0; // Casillas que se puede mover el peon
-	bool primeravez=true;
+	bool primeravez=true; // puede eliminarse el true funciona igual
 	
 	void Dibuja(); 
 	void mueve();
