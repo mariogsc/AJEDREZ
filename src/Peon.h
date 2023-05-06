@@ -1,17 +1,20 @@
 
+#pragma once
 #include <ETSIDI.h>
-using ETSIDI::SpriteSequence;
+using ETSIDI::Sprite;
 #include <Piezas.h>
 #include <Vector.h>
 
-class Peon:public Piezas { //ESTO ES HERENCIA PERO TODAVIA NO LO HEMOS VISTO
-protected:
-	SpriteSequence ImagenPeonN{ "imagenes/PeonNegro.png", 1 };
-	SpriteSequence ImagenPeonB{ "imagenes/PeonBlanco.png", 1 };
+
+class Peon:public Piezas { // CREAMOS UNA CLASE PEON POR HERENCIA DE LA CLASE PIEZAS
+	
+	//SpriteSequence ImagenPeonB{ "imagenes/PeonBlanco.png", 1 };  // ¿Cual es la dieferencia entre sprite y spritesequence?
 public:
-	//Peon(Vector p) { posicion = p; }
-	//Peon(COLOR c, Vector p) { color=c, posicion=p; } // Constructor para inicializar las variables
-	Peon(Vector p, COLOR c) { posicion = p; tipo = PEON; color = c; }
-	Peon(Vector p) { posicion = p; }
-	void dibuja(); 
+	Peon(Vector p, COLOR c) { tipo = Piezas::PEON, color = c, posicion = p; } // Constructor para inicializar las variables
+	Sprite ImagenPeonN{ "imagenes/PeonNegro.png", 0, 0, tam, tam };
+	void Dibuja(); 
+	void mueve();
+	void PosibleMov();
+	void SetPos(Vector p) { posicion = p; }
 };
+
