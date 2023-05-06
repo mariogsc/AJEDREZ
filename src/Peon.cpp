@@ -2,36 +2,36 @@
 #include <ETSIDI.h>
 #include <freeglut.h>
 
-
 Peon::Peon(Vector p, COLOR c) { 
-	tipo = Piezas::PEON; 
+	tipo = PEON; 
 	color = c; 
 	posicion = p; 
 	ImagenPeonN.setCenter(0.0, 0.0);
-	//seleccionado = false;
+	ImagenPeonB.setCenter(0.0,0.0);
 }
 
-void Peon::Dibuja() {
+void Peon::Dibuja() { // Dibujamos el peon
+
 	glPushMatrix();
 	glTranslatef(posicion.x, posicion.y, 0.1); // Transladamos un poco por arriba del tablero (eje z)
-	ImagenPeonN.draw(); // Dibujamos el peon
+	if (color == BLANCO) ImagenPeonB.draw();
+	else if (color == NEGRO) ImagenPeonN.draw();
 	glPopMatrix();
 		
 }
 
-void Peon::mueve() {
-	if (seleccionado == true)
-	{
-
-	}
-}
-
 bool Peon::CheckMov(Vector v) {
 	bool retorno= false;
-	
-	if (v.x == posicion.x && v.y == posicion.y + 1.0f) retorno = true;
-	else (retorno = false);
-	//if(retorno==false) ETSIDI::play("sonidos/error.wav");
+
+	if (color == NEGRO && v.x == posicion.x && v.y == posicion.y + añadir) {
+		retorno = true;
+		añadir = 1.0f;
+	}
+	else if (color == BLANCO && v.x == posicion.x && v.y == posicion.y - añadir) { 
+		retorno = true;
+		añadir = 1.0f;
+	}
 	return retorno;
 }
+
 
