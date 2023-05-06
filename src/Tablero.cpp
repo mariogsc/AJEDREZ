@@ -2,6 +2,8 @@
 #include <Tablero.h>
 #include <Piezas.h>
 #include <Casilla.h>
+#include"freeglut.h"
+
 
 
 Tablero::Tablero():NPiezas(0) {
@@ -41,12 +43,15 @@ void Tablero::DibujaTablero(ColorCasilla color1, ColorCasilla color2) {
 			
 			casilla[columna][fila].SetPos(aux);
 			
-			casilla[columna][fila].DibujaCasilla(casilla[columna][fila].GetPos());
+			casilla[columna][fila].DibujaCasilla(casilla[columna][fila].GetPos(), {});
 
 			
 			aux.x += tam;
 		}
 	}
+	c.SetColor(138,149,151);
+	CheckPosition();
+	c.DibujaCasilla(c.GetPos(),0.005);
 
 }
 
@@ -58,10 +63,11 @@ void Tablero::DibujaPiezas()
 		lista[0]->Dibuja();
 }
 
-void Tablero::mueve(Vector v) {
+void Tablero::mueve() {
 	
 	//for (int i = 0; i < N_PIEZAS; i++)
 		// lista[i]->mueve(v); TODAVIA NO ESTA HECHO EL POLIMORFISMO DE MOVER
+	//lista[0]->mueve({ 2.0,2.0 });
 	
 }
 
@@ -75,6 +81,40 @@ bool Tablero::agregar(Piezas* p)
 }
 
 void Tablero::inicializa() {  // inicializacion de todas las fichas e inclusión en el vector de piezas
-	Piezas* p1 = new Peon(Vector{ 0,0 }, Piezas::COLOR::BLANCO);
+	Peon* p1 = new Peon(Vector{ 0.5,0.5 }, Piezas::COLOR::BLANCO);
 	agregar(p1);
+}
+
+
+void Tablero::MueveCursor(unsigned char key) {
+	switch (key)
+	{
+	case GLUT_KEY_UP:
+		c.pos.y+=1;
+		break;
+	case GLUT_KEY_DOWN:
+		c.pos.y -= 1;
+		break;
+	case GLUT_KEY_RIGHT:
+		c.pos.x += 1;
+		break;
+	case GLUT_KEY_LEFT:
+		c.pos.x -= 1;
+		break;
+	case GLUT_KEY_F1:
+		if (c.pos.x+0.5 == lista[0]->posicion.x && c.pos.y+0.5 == lista[0]->posicion.y)
+		{
+			lista[0]->seleccionado = true;
+			lista[0]->PosibleMov();
+			lista[0]->mueve();
+		}
+		break;
+	}
+}
+
+void Tablero::CheckPosition() {
+	if (c.pos.x >= 7) c.pos.x = 7;
+	if (c.pos.x <= 0) c.pos.x = 0;
+	if (c.pos.y >= 7) c.pos.y = 7;
+	if (c.pos.y <= 0) c.pos.y = 0;
 }
