@@ -2,6 +2,7 @@
 #include <Tablero.h>
 #include <ColorCasilla.h>
 #include <MenuInicial.h>
+#include <Marcador.h>
 
 
 #include <ETSIDI.h>
@@ -10,6 +11,7 @@ using ETSIDI::Sprite;
 Tablero tablero;
 ColorCasilla color1,color2;
 MenuInicial menu;
+Marcador marcador;
 
 //los callback, funciones que seran llamadas automaticamente por la glut cuando sucedan eventos
 //NO HACE FALTA LLAMARLAS EXPLICITAMENTE
@@ -85,6 +87,7 @@ void OnDraw(void)
 
 		glDisable(GL_LIGHTING);
 		tablero.DibujaTablero(color1,color2);
+		marcador.CreaMarcador(color1,color2);
 		tablero.DibujaPiezas();
 		glEnable(GL_LIGHTING);
 	}
