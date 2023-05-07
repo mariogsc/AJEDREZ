@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 #include <ETSIDI.h>
 using ETSIDI::Sprite;
 #include <Piezas.h>
@@ -13,5 +12,6 @@ public:
 		Sprite ImagenTorreN{ "imagenes/TorreNegro.png", 0, 0, tam, tam };
 		Sprite ImagenTorreB{ "imagenes/TorreBlanco.png", 0, 0, tam, tam };
 		void Dibuja();
+		bool CheckMov(Vector v);
 
 };
