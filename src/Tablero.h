@@ -5,6 +5,7 @@ using ETSIDI::Sprite;
 #include <Piezas.h> 
 #include <ColorCasilla.h>
 #include <Peon.h>
+#include <Torre.h>
 #include <Vector.h>
 #include <NoPieza.h>
 
