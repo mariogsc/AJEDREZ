@@ -18,3 +18,14 @@ void Torre::Dibuja() { // Dibujamos
 	glPopMatrix();
 }
 
+bool Torre::CheckMov(Vector v) {
+	bool retorno = false;
+
+	if (color == NEGRO && v.x == posicion.x && v.y == posicion.y + 1) {
+		retorno = true;
+	}
+	else if (color == BLANCO && v.x == posicion.x && v.y == posicion.y - 1) {
+		retorno = true;
+	}
+	return retorno;
+}
