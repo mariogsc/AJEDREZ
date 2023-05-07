@@ -123,75 +123,80 @@ void Tablero::MueveCursor(unsigned char key) {
 		c.pos.x -= 1;
 		break;
 	case ' ':
-		if (turno % 2 == 0) Selecciona(Piezas::COLOR::NEGRO);
-		if (turno % 2 != 0) Selecciona(Piezas::COLOR::BLANCO);
+		n=Selecciona();
 		break;
 	case 13:
-		if (turno % 2 == 0) Juega(Piezas::COLOR::NEGRO);
-		if (turno % 2 != 0) Juega(Piezas::COLOR::BLANCO);
+		Mueve(n);
 		break;
 	}
 }
 
+void Tablero::Mueve(int n) {
+	bool check=false;
+	int aux=0;
+	Vector PosAntes = { 0.0,0.0 };
+	if (n != -1) {
 
-void Tablero::Juega(Piezas::COLOR col) {
-	if (col == Piezas::COLOR::NEGRO) 
-	{
-		for (int i = 0; i < NCasillas * NCasillas; i++)
-		{
-			if (lista[i]->CheckMov(c.pos) == true && lista[i]->seleccionado == true)
-			{
-				lista[i]->SetPos(Vector{ c.pos.x,c.pos.y });
-				lista[i]->seleccionado = false;
-				turno += 1;
-				c.pos.y = 6.0;
+		// Se comprueba si donde se ha seleccionado hay una pieza del otro color
+		for (int i = 0; i < NCasillas * NCasillas; i++) {
+			if(lista[i]->tipo!=Piezas::TIPO::NT){ // comprobación de que hay una pieza
+				// comprobación de que el color es distinto y de que la posición de la pieza coincide con la posicion en la que se quiere mover 
+				if (lista[i]->posicion.x == c.pos.x && lista[i]->posicion.y == c.pos.y && lista[i]->color != lista[n]->color) {
+					check = true;
+					aux = i;
+					PosAntes = lista[n]->posicion;
+				}
 			}
-			//else (ETSIDI::play("sonidos/error.wav"));
-			//if (lista[i]->CheckMov(c.pos) == true) ETSIDI::play("sonidos/error.wav");
 		}
-	}
 
-	if (col == Piezas::COLOR::BLANCO)
-	{
-		for (int i = 0; i < NCasillas * NCasillas; i++)
+		if (lista[n]->CheckMov(c.pos,check) == true )
 		{
-			if (lista[i]->CheckMov(c.pos) == true && lista[i]->seleccionado == true)
-			{
-				lista[i]->SetPos(Vector{ c.pos.x,c.pos.y });
-				lista[i]->seleccionado = false;
-				turno += 1;
-				c.pos.y = 1.0;
+
+			lista[n]->SetPos(Vector{ c.pos.x,c.pos.y });
+			// Si se ha comido una pieza se elimina
+			if (check) {
+				ETSIDI::play("sonidos/PiezaComida.wav");
+				delete lista[aux];
+				lista[aux] = new NoPieza(PosAntes); // Se crea una Pieza Vacia donde estaba antes la pieza que ha comido
+				// Ahora mismo se está eliminando por lo que no podría ponerse en el menú de la derecha pero si se intenta transladar va dar errores otras cosas porque en esa casilla no habra una NoPieza
 			}
-			//else (ETSIDI::play("sonidos/error.wav"));
-			//if (lista[i]->CheckMov(c.pos) == true) ETSIDI::play("sonidos/error.wav");
+			turno++;
+			ColocaSelector();				
 		}
+		else ETSIDI::play("sonidos/error.wav");
+		lista[n]->seleccionado = false;
 	}
+		
+}
+	
+int Tablero::Selecciona() {
+	int retorno=-1;
+		for ( int i = 0; i < NCasillas * NCasillas; i++)
+		{
+			if(lista[i]->tipo != Piezas::TIPO::NT)
+			{
+				if (c.pos.x == lista[i]->posicion.x && c.pos.y == lista[i]->posicion.y)
+				{
+					if (turno % 2 != 0 && lista[i]->color == Piezas::COLOR::NEGRO){
+						
+							lista[i]->seleccionado = true;
+							retorno = i;
+					}
+					else if (turno % 2 == 0 && lista[i]->color == Piezas::COLOR::BLANCO){
+						
+							lista[i]->seleccionado = true;
+							retorno = i;
+				
+					}
+					else ETSIDI::play("sonidos/error.wav");
+				
+				}
+			}
+		}
+		return retorno;
 }
 
-
-void Tablero::Selecciona(Piezas::COLOR col) {
-	if (col == Piezas::COLOR::NEGRO)
-	{
-		for (int i = 0; i < NCasillas * NCasillas; i++)
-		{
-			if (c.pos.x == lista[i]->posicion.x && c.pos.y == lista[i]->posicion.y && lista[i]->tipo != Piezas::TIPO::NT)
-			{
-				lista[i]->seleccionado = true;
-			} 
-		}
-	}
-
-	
-	if (col == Piezas::COLOR::BLANCO)
-	{
-		for (int i = 0; i < NCasillas * NCasillas; i++)
-		{
-			if (c.pos.x == lista[i]->posicion.x && c.pos.y == lista[i]->posicion.y && lista[i]->tipo != Piezas::TIPO::NT)
-			{
-				lista[i]->seleccionado = true;
-			}
-		}
-	}
-
-	
+void Tablero::ColocaSelector() {
+	if (turno % 2 != 0)c.pos = {0.0,0.0};
+	else if (turno %2==0)c.pos = {0.0,7.0};
 }
