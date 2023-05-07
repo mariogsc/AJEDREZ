@@ -81,6 +81,8 @@ bool Tablero::agregar(Piezas* p)
 
 void Tablero::inicializa() {  // inicializacion de todas las fichas e inclusión en el vector de piezas
 	Piezas* aux;
+	aux =new Torre(Vector{0.0,0.0}, Piezas::COLOR::NEGRO);
+	agregar(aux);
 		for (float j = 0.0; j < NCasillas; j++)
 		{
 			for (float i = 0.0; i < NCasillas; i++) {
