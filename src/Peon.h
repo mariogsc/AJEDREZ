@@ -16,8 +16,11 @@ public:
 	bool primeravez=true; // puede eliminarse el true funciona igual
 	
 	void Dibuja(); 
-	void mueve();
-	void PosibleMov();
 	void SetPos(Vector p) { posicion = p; }
+	bool primeravez; 
+	void Dibuja(); 
+	bool CheckMov(Vector v,bool check);
+	//bool Comer(Vector v);
+	//void SetPos(Vector p) { posicion = p; }
 };
 
