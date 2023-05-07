@@ -95,6 +95,12 @@ void Tablero::inicializa() {  // inicializacion de todas las fichas e inclusión
 				agregar(aux);
 			}	
 		}
+		if (float j = NCasillas) {
+			if (float i = NCasillas) {
+				aux = new Peon(Vector{ i,j }, Piezas::COLOR::NEGRO);
+			}
+			agregar(aux);
+		}
 }
 
 
