@@ -11,6 +11,7 @@ Tablero::Tablero() {
 	// Primero reservamos espacio dinamico para una matriz de 8x8 casillas (tablero) 
 	bool color = false;
 	NPiezas = 0;
+	turno=1;
 	casilla = new Casilla * [NCasillas];
 	
 	for (int i = 0; i < NCasillas; i++) {  
