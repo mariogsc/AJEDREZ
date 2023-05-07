@@ -23,4 +23,6 @@ public:
 	void inicializa();
 	bool agregar(Piezas* p);
 	void MueveCursor(unsigned char key);
+	void Juega(Piezas::COLOR col);
+	void Selecciona(Piezas::COLOR col);
 };
