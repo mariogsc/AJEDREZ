@@ -120,26 +120,75 @@ void Tablero::MueveCursor(unsigned char key) {
 		c.pos.x -= 1;
 		break;
 	case ' ':
-		for (int i = 0; i < NCasillas * NCasillas; i++)
-		{
-			if (c.pos.x  == lista[i]->posicion.x && c.pos.y == lista[i]->posicion.y && lista[i]->tipo !=Piezas::TIPO::NT)
-			{
-				lista[i]->seleccionado = true;
-			}
-		}
+		if (turno % 2 == 0) Selecciona(Piezas::COLOR::NEGRO);
+		if (turno % 2 != 0) Selecciona(Piezas::COLOR::BLANCO);
 		break;
 	case 13:
-		for(int i=0;i< NCasillas * NCasillas;i++)
-			{
-				if (lista[i]->CheckMov(c.pos) == true && lista[i]->seleccionado==true) 
-				{
-					lista[i]->SetPos(Vector{ c.pos.x,c.pos.y });
-					lista[i]->seleccionado = false;
-				}
-				//else (ETSIDI::play("sonidos/error.wav"));
-				if(lista[i]->CheckMov(c.pos) == true) ETSIDI::play("sonidos/error.wav");
-			}
+		if (turno % 2 == 0) Juega(Piezas::COLOR::NEGRO);
+		if (turno % 2 != 0) Juega(Piezas::COLOR::BLANCO);
 		break;
 	}
 }
 
+
+void Tablero::Juega(Piezas::COLOR col) {
+	if (col == Piezas::COLOR::NEGRO) 
+	{
+		for (int i = 0; i < NCasillas * NCasillas; i++)
+		{
+			if (lista[i]->CheckMov(c.pos) == true && lista[i]->seleccionado == true)
+			{
+				lista[i]->SetPos(Vector{ c.pos.x,c.pos.y });
+				lista[i]->seleccionado = false;
+				turno += 1;
+				c.pos.y = 6.0;
+			}
+			//else (ETSIDI::play("sonidos/error.wav"));
+			//if (lista[i]->CheckMov(c.pos) == true) ETSIDI::play("sonidos/error.wav");
+		}
+	}
+
+	if (col == Piezas::COLOR::BLANCO)
+	{
+		for (int i = 0; i < NCasillas * NCasillas; i++)
+		{
+			if (lista[i]->CheckMov(c.pos) == true && lista[i]->seleccionado == true)
+			{
+				lista[i]->SetPos(Vector{ c.pos.x,c.pos.y });
+				lista[i]->seleccionado = false;
+				turno += 1;
+				c.pos.y = 1.0;
+			}
+			//else (ETSIDI::play("sonidos/error.wav"));
+			//if (lista[i]->CheckMov(c.pos) == true) ETSIDI::play("sonidos/error.wav");
+		}
+	}
+}
+
+
+void Tablero::Selecciona(Piezas::COLOR col) {
+	if (col == Piezas::COLOR::NEGRO)
+	{
+		for (int i = 0; i < NCasillas * NCasillas; i++)
+		{
+			if (c.pos.x == lista[i]->posicion.x && c.pos.y == lista[i]->posicion.y && lista[i]->tipo != Piezas::TIPO::NT)
+			{
+				lista[i]->seleccionado = true;
+			} 
+		}
+	}
+
+	
+	if (col == Piezas::COLOR::BLANCO)
+	{
+		for (int i = 0; i < NCasillas * NCasillas; i++)
+		{
+			if (c.pos.x == lista[i]->posicion.x && c.pos.y == lista[i]->posicion.y && lista[i]->tipo != Piezas::TIPO::NT)
+			{
+				lista[i]->seleccionado = true;
+			}
+		}
+	}
+
+	
+}
