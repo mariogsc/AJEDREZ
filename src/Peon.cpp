@@ -20,14 +20,37 @@ void Peon::Dibuja() { // Dibujamos el peon
 		
 }
 
-bool Peon::CheckMov(Vector v) {
+
+bool Peon::CheckMov(Vector v,bool check) {
 	bool retorno= false;
-	
-	//Comprobvar si es primer movimiento o no
-	
-	if (primeravez) {
-		if (color == NEGRO && v.x == posicion.x && ( v.y== posicion.y + 1.0 || v.y == posicion.y + 2.0)) {
+
+	// Se comprueba si es el primer movimiento del peon para poder avanzar dos casillas
+	if (primeravez) {  
+		if (color == NEGRO && (v.x == posicion.x && v.y == posicion.y + 1.0 || v.x == posicion.x && v.y == posicion.y + 2.0)) {
 			retorno = true;
+			primeravez = false;
+		}
+		else if (color == BLANCO && (v.x == posicion.x && v.y == posicion.y - 1.0 || v.x == posicion.x && v.y == posicion.y - 2.0)){
+			retorno = true;
+			primeravez = false;
+		}
+		
+
+	}
+	// movimiento normal del peon (1 casilla)
+	else if (primeravez ==false){ 
+		if (color == NEGRO && v.x == posicion.x && v.y == posicion.y + 1.0) retorno = true;
+		else if (color == BLANCO && v.x == posicion.x && v.y == posicion.y - 1.0)retorno = true;
+	}
+	// Se compruba si se puede comer
+	if(check){
+		if (color == NEGRO && ((v.x == posicion.x - 1.0 || v.x == posicion.x + 1.0) && v.y == posicion.y + 1.0)) retorno = true;
+		else if (color == BLANCO && ((v.x == posicion.x-1.0 || v.x == posicion.x + 1.0) && v.y == posicion.y - 1.0))retorno = true;
+	}
+
+
+	return retorno;
+}
 			primeravez = false;
 
 		}
