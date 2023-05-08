@@ -100,15 +100,22 @@ void OnKeyboardDown(unsigned char key, int x_t, int y_t)
 	//poner aqui el código de teclado
 
 	menu.flecha(key);
-
+	
+	if (menu.GetComienzo() == true) {
+	tablero.MueveCursor(key);
+	}
+	
 	glutPostRedisplay();
 }
 
 void flechas(int key, int x_x, int y_y) {
 
 	menu.flecha(key);
-	tablero.MueveCursor(key);
 	
+	if (menu.GetComienzo() == true) {
+		tablero.MueveCursor(key);
+	}
+
 
 	glutPostRedisplay();
 
