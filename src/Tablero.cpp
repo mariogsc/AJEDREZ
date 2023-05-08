@@ -21,7 +21,7 @@ Tablero::Tablero() {
 	inicializa();
 }
 
-// FUNCIÓN PARA DIBUJAR EL TABLERO UTILIZANDO UNA MATRIZ DE CASILLAS Y ELEGIR EL COLOR SEGÚN EL EQUIPO SELECCIONADO
+// FUNCIÃ“N PARA DIBUJAR EL TABLERO UTILIZANDO UNA MATRIZ DE CASILLAS Y ELEGIR EL COLOR SEGÃšN EL EQUIPO SELECCIONADO
 void Tablero::DibujaTablero(ColorCasilla color1, ColorCasilla color2) {
 	float tam= 1.0; //Definimos variables auxiliares para ir desplazando la casilla
 	Vector aux{0.0,0.0};
@@ -72,11 +72,11 @@ bool Tablero::agregar(Piezas* p)
 	if (NPiezas < NCasillas * NCasillas)
 		lista[NPiezas++] = p; 
 	else
-		return false; // capacidad máxima alcanzada
+		return false; // capacidad mÃ¡xima alcanzada
 	return true;
 }
 
-void Tablero::inicializa() {  // inicializacion de todas las fichas e inclusión en el vector de piezas
+void Tablero::inicializa() {  // inicializacion de todas las fichas e inclusiÃ³n en el vector de piezas
 	Piezas* aux;
 		for (float j = 0.0; j < NCasillas; j++)
 		{
@@ -123,52 +123,33 @@ void Tablero::MueveCursor(unsigned char key) {
 		n=Selecciona();
 		break;
 	case 13:
-		Mueve(n);
+		if (n != -1)Mueve(n);
 		break;
 	}
 }
 
 void Tablero::Mueve(int n) {
-	int check = 0;
 	int aux=0;
 	Vector PosAntes = { 0.0,0.0 };
 
-	if (n != -1) {
 
-		// Se comprueba si donde se ha seleccionado hay una pieza del otro color o del mismo color
-		for (int i = 0; i < NCasillas * NCasillas; i++) {
-			if(lista[i]->tipo!=Piezas::TIPO::NT){ // comprobación de que hay una pieza
-
-				// comprobación de que el color es distinto y de que la posición de la pieza coincide con la posicion en la que se quiere mover 
-				if (lista[i]->posicion.x == c.pos.x && lista[i]->posicion.y == c.pos.y && lista[i]->color != lista[n]->color) {
-					check = 1;
-					aux = i;
-					PosAntes = lista[n]->posicion;
-				}
-				else if (lista[i]->posicion.x == c.pos.x && lista[i]->posicion.y == c.pos.y && lista[i]->color == lista[n]->color) {
-					check = 2;
-				}
-			}
-		}
-
-		if (lista[n]->CheckMov(c.pos,check) == true &&lista[n]->seleccionado==true )
+		if (lista[n]->CheckMov(c.pos,ComprobacionColor(aux,PosAntes)) == true && lista[n]->seleccionado==true)
 		{
 
 			lista[n]->SetPos(Vector{ c.pos.x,c.pos.y });
-			// Si se ha comido una pieza se elimina
-			if (check) {
+
+			if (ComprobacionColor(aux, PosAntes)==1) {
 				ETSIDI::play("sonidos/PiezaComida.wav");
-				
 			}
 			turno++;
-			ColocaSelector();		
+			ColocaSelector();	
+
+			// Se crea pieza vacia donde estaba antes
 			delete lista[aux];
-			lista[aux] = new NoPieza(PosAntes); // Se crea una Pieza Vacia donde estaba antes la pieza que ha comido
-			// Ahora mismo se está eliminando por lo que no podría ponerse en el menú de la derecha pero si se intenta transladar va dar errores otras cosas porque en esa casilla no habra una NoPieza
+			lista[aux] = new NoPieza(PosAntes);
 		}
 		else ETSIDI::play("sonidos/error.wav");
 		lista[n]->seleccionado = false;
-	}
 		
 }
 	
@@ -176,23 +157,19 @@ int Tablero::Selecciona() {
 	int retorno=-1;
 		for ( int i = 0; i < NCasillas * NCasillas; i++)
 		{
-			if(lista[i]->tipo != Piezas::TIPO::NT)
+			if(HayPieza(i)) // Se comprueba que hay una pieza en la posicion seleccionada
 			{
-				if (c.pos.x == lista[i]->posicion.x && c.pos.y == lista[i]->posicion.y)
+				if (c.pos == lista[i]->posicion)  // Se utiliza el operador == sobrecargado
 				{
 					if (turno % 2 != 0 && lista[i]->color == Piezas::COLOR::NEGRO){
-						
 							lista[i]->seleccionado = true;
-							retorno = i;
 					}
 					else if (turno % 2 == 0 && lista[i]->color == Piezas::COLOR::BLANCO){
-						
-							lista[i]->seleccionado = true;
-							retorno = i;
-				
+						lista[i]->seleccionado = true;
 					}
 					else ETSIDI::play("sonidos/error.wav");
-				
+
+					retorno = i;
 				}
 			}
 		}
@@ -203,3 +180,31 @@ void Tablero::ColocaSelector() {
 	if (turno % 2 != 0)c.pos = {0.0,0.0};
 	else if (turno %2==0)c.pos = {0.0,7.0};
 }
+
+bool Tablero::HayPieza(int i) {
+	if (lista[i]->tipo != Piezas::TIPO::NT)return true;
+	else return false;
+}
+
+int Tablero::ComprobacionColor(int &aux,Vector &v) {
+	int check = 0;
+	// Se comprueba si donde se quiere mover hay una pieza del otro color o del mismo color
+
+		for (int i = 0; i < NCasillas * NCasillas; i++) {
+
+			if (HayPieza(i) && c.pos == lista[i]->posicion) { // comprobaciÃ³n de que hay una pieza
+
+				if (lista[i]->color != lista[n]->color) { // comprobaciÃ³n de que es de distinto color
+					check = 1;
+					aux = i;
+					v = lista[n]->posicion;
+				}
+				else if (lista[i]->color == lista[n]->color) { // comprobaciÃ³n de que es del mismo color 
+					check = 2;
+				}
+
+			}
+		}
+		return check;
+}
+
