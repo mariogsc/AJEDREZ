@@ -149,7 +149,7 @@ void Tablero::Mueve(int n) {
 			}
 		}
 
-		if (lista[n]->CheckMov(c.pos,check) == true )
+		if (lista[n]->CheckMov(c.pos,check) == true && lista[n]->seleccionado==true) 
 		{
 
 			lista[n]->SetPos(Vector{ c.pos.x,c.pos.y });
