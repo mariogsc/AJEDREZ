@@ -1,18 +1,36 @@
 #pragma once
-#include <ETSIDI.h>
-#include "freeglut.h"
 #include <ColorCasilla.h>
+#include <Vector.h>
+#include <freeglut.h>
 
-using namespace ETSIDI;
-using ETSIDI::getTexture;
-
-using ETSIDI::Sprite;
 class Marcador {
-	Sprite* CartelBlancas = new Sprite("imagenes/CartelBlancas.png", 9, 7.6, 1, 0.4);
-	Sprite* CartelNegras = new Sprite("imagenes/CartelNegras.png", 10.45, 7.6, 1, 0.4);
-	ColorCasilla ColorMarcador;
+    Rectangulo r1;
 public:
-	void CreaMarcador(ColorCasilla color1, ColorCasilla color2);
-	void SetColor(unsigned char r, unsigned char v, unsigned char a);
-	void SetColor(ColorCasilla _color);
+    void DibujaMarcador() { //continuar
+    }
+};
+
+class Rectangulo {
+private:
+    float base, altura;
+    Vector posicion;
+    ColorCasilla color;
+public:
+    Rectangulo(Vector v, ColorCasilla c,float ancho, float alto) {
+        base = ancho;
+        altura = alto;
+        posicion = v;
+        color = c;
+    }
+
+    void DibujaRectangulo() {
+        glDisable(GL_LIGHTING);
+        glBegin(GL_POLYGON);
+        glVertex3f(posicion.x, posicion.y, 0.0f);
+        glVertex3f(posicion.x+base, posicion.y, 0.0f);
+        glVertex3f(posicion.x+base, posicion.y+altura, 0.0f);
+        glVertex3f(posicion.x,posicion.y+altura, 0.0f);
+        glEnd();
+        glEnable(GL_LIGHTING);
+    };
 };
