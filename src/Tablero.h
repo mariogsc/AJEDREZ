@@ -19,11 +19,13 @@ class Tablero
 public: 
 	Tablero(); // Constructor por defecto de tablero
 	void DibujaTablero(ColorCasilla color1,ColorCasilla color2);
-	void DibujaPiezas();
-	void mueve(); 
+	void DibujaPiezas(); 
 	void inicializa();
 	bool agregar(Piezas* p);
 	void MueveCursor(unsigned char key);
-	void Juega(Piezas::COLOR col);
-	void Selecciona(Piezas::COLOR col);
+	void Mueve(int n);
+	int Selecciona();
+	void ColocaSelector();
+	bool HayPieza(int i);
+	int ComprobacionColor(int &aux, Vector &v);
 };
