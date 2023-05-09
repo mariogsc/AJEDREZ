@@ -25,7 +25,9 @@ bool Alfil ::CheckMov(Vector v, int check) {
 	bool retorno = false;
 		for (int j = 0; j < 8; j++)
 		{
+			if(check !=2){
 				if ((v.x == posicion.x - j || v.x == posicion.x + j) && (v.y == posicion.y - j || v.y == posicion.y + j)) retorno = true;
+			}
 		}
 	return retorno;
 	
