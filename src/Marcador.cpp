@@ -65,10 +65,3 @@ void Marcador::CreaMarcador(ColorCasilla color1,ColorCasilla color2) {
 	glEnable(GL_LIGHTING);
 }
 
-void Marcador::SetColor(unsigned char r, unsigned char v, unsigned char a) {
-	this->ColorMarcador.SetColor(r, v, a);
-}
-
-void Marcador::SetColor(ColorCasilla _color) {
-	this->ColorMarcador.SetColor(_color.GetRojo(), _color.GetVerde(), _color.GetAzul());
-}
