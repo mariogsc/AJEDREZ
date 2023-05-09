@@ -4,9 +4,14 @@
 #include <freeglut.h>
 
 class Marcador {
-    Rectangulo r1;
+    Rectangulo r1, r2, r3, r4, r5;
 public:
-    void DibujaMarcador() { //continuar
+    void DibujaMarcador() { 
+        r1.DibujaRectangulo();
+        r2.DibujaRectangulo();
+        r3.DibujaRectangulo();
+        r4.DibujaRectangulo();
+        r5.DibujaRectangulo();
     }
 };
 
