@@ -1,9 +1,8 @@
-
+#pragma once
 #include <Tablero.h>
 #include"freeglut.h"
 #include"ETSIDI.h"
-
-
+#include <cmath>
 
 
 Tablero::Tablero() {
@@ -66,7 +65,6 @@ void Tablero::DibujaPiezas()
 	}
 }
 
-
 bool Tablero::agregar(Piezas* p)
 {
 	if (NPiezas < NCasillas * NCasillas)
@@ -81,19 +79,35 @@ void Tablero::inicializa() {  // inicializacion de todas las fichas e inclusión
 		for (float j = 0.0; j < NCasillas; j++)
 		{
 			for (float i = 0.0; i < NCasillas; i++) {
-				if (j == 1.0) {
-					aux = new Peon(Vector{ i,j }, Piezas::COLOR::NEGRO);
+				if (j == 1.0 ) {
+					aux = new Peon(Vector{ i,j }, Piezas::COLOR::BLANCO);
 				}
-				else if (j == 6.0) {
-					aux = new Peon(Vector{ i, j }, Piezas::COLOR::BLANCO);
+				else if (j == 6.0 ) {
+					aux = new Peon(Vector{ i, j }, Piezas::COLOR::NEGRO);
 				}
-				else if (j == 0.0 && (i == 2.0 ||i==5.0))
+				else if (j == 0.0 && (i == 2.0 || i == 5.0))
 				{
-					aux = new Alfil(Vector{ i, j }, Piezas::COLOR::NEGRO);
+					aux = new Alfil(Vector{ i, j }, Piezas::COLOR::BLANCO);
 				}
 				else if (j == 7.0 && (i == 2.0 || i == 5.0))
 				{
-					aux = new Alfil(Vector{ i, j }, Piezas::COLOR::BLANCO);
+					aux = new Alfil(Vector{ i, j }, Piezas::COLOR::NEGRO);
+				}
+				else if (j == 0.0 && i == 3.0)
+				{
+					aux = new Rey(Vector{ i, j }, Piezas::COLOR::BLANCO);
+				}
+				else if (j == 7.0 && i == 3.0)
+				{
+					aux = new Rey(Vector{ i, j }, Piezas::COLOR::NEGRO);
+				}
+				else if (j == 0.0 && (i == 1.0||i==6.0))
+				{
+					aux = new Caballo(Vector{ i, j }, Piezas::COLOR::BLANCO);
+				}
+				else if (j == 7.0 && (i == 1.0 || i == 6.0))
+				{
+					aux = new Caballo(Vector{ i, j }, Piezas::COLOR::NEGRO);
 				}
 				else {
 				aux = new NoPieza(Vector{ i,j });
@@ -101,7 +115,6 @@ void Tablero::inicializa() {  // inicializacion de todas las fichas e inclusión
 				agregar(aux);
 			}	
 		}
-
 }
 
 void Tablero::MueveCursor(unsigned char key) {
@@ -133,18 +146,19 @@ void Tablero::Mueve(int n) {
 	Vector PosAntes = { 0.0,0.0 };
 
 
-		if (lista[n]->CheckMov(c.pos,ComprobacionColor(aux,PosAntes)) == true && lista[n]->seleccionado==true)
+		if (lista[n]->CheckMov(c.pos,Comprobaciones(aux)) == true && lista[n]->seleccionado==true)
 		{
 
 			lista[n]->SetPos(Vector{ c.pos.x,c.pos.y });
 
-			if (ComprobacionColor(aux, PosAntes)==1) {
+			if (Comprobaciones(aux)==1) {
 				ETSIDI::play("sonidos/PiezaComida.wav");
 			}
 			turno++;
 			ColocaSelector();	
 
 			// Se crea pieza vacia donde estaba antes
+			PosAntes = lista[aux]->posicion;
 			delete lista[aux];
 			lista[aux] = new NoPieza(PosAntes);
 		}
@@ -159,12 +173,12 @@ int Tablero::Selecciona() {
 		{
 			if(HayPieza(i)) // Se comprueba que hay una pieza en la posicion seleccionada
 			{
-				if (c.pos == lista[i]->posicion)  // Se utiliza el operador == sobrecargado
+				if (c.pos == lista[i]->posicion)  // Se utiliza el operador == sobrecargado para buscar la pieza
 				{
-					if (turno % 2 != 0 && lista[i]->color == Piezas::COLOR::NEGRO){
+					if (turno % 2 != 0 && lista[i]->color == Piezas::COLOR::BLANCO){ // turno de blancas y pieza seleccionada negra
 							lista[i]->seleccionado = true;
 					}
-					else if (turno % 2 == 0 && lista[i]->color == Piezas::COLOR::BLANCO){
+					else if (turno % 2 == 0 && lista[i]->color == Piezas::COLOR::NEGRO){ // turno de negras y pieza seleccionada blanca
 						lista[i]->seleccionado = true;
 					}
 					else ETSIDI::play("sonidos/error.wav");
@@ -172,7 +186,9 @@ int Tablero::Selecciona() {
 					retorno = i;
 				}
 			}
+			else if(lista[i]->tipo==Piezas::TIPO::NT && c.pos==lista[i]->posicion)ETSIDI::play("sonidos/error.wav");
 		}
+		
 		return retorno;
 }
 
@@ -186,99 +202,110 @@ bool Tablero::HayPieza(int i) {
 	else return false;
 }
 
-int Tablero::ComprobacionColor(int &aux,Vector &v) {
+int Tablero::Comprobaciones(int& aux) {
 	int check = 0;
 	// Se comprueba si donde se quiere mover hay una pieza del otro color o del mismo color
 
-		for (int i = 0; i < NCasillas * NCasillas; i++) {
+	for (int i = 0; i < NCasillas * NCasillas; i++) {
 
-			if (HayPieza(i) && c.pos == lista[i]->posicion) { // comprobación de que hay una pieza
+		if (HayPieza(i) && c.pos == lista[i]->posicion && i!=n) { // comprobación de que hay una pieza
 
-				if (lista[i]->color != lista[n]->color) { // comprobación de que es de distinto color
-					check = 1;
-					aux = i;
-					v = lista[n]->posicion;
-				}
-				else if (lista[i]->color == lista[n]->color) { // comprobación de que es del mismo color 
-					check = 2;
-				}
-
+			if (lista[i]->color != lista[n]->color) { // comprobación de que es de distinto color
+				check = 1;
+				aux = i; // Valor de la posicion en la lista donde estaba la casilla antes de moverse
+			}
+			else if (lista[i]->color == lista[n]->color) { // comprobación de que es del mismo color 
+				check = 2;
 			}
 		}
+	}
+
+	if(ComprobacionAlfil()==false)check=2;
+
+
 	
-	if (lista[n]->tipo == Piezas::TIPO::ALFIL) {  // El alfil no puede "saltar" piezas
-
-
-				if ((c.pos.x - lista[n]->posicion.x) > 0 && (c.pos.y - lista[n]->posicion.y) > 0) { // Selecciona la diagonal en la que se quiere mover el peon
-					for (float x = lista[n]->posicion.x; x < c.pos.x; x ++) { // Comprueba las posiciones de la diagonal desde la posicion de partida hasta la que se quiere mover
-						for (float y = lista[n]->posicion.y; y < c.pos.y; y ++) {
-
-							if((x- lista[n]->posicion.x) == (y - lista[n]->posicion.y)){
-								for (int i = 0; i < NCasillas * NCasillas; i++) { // Busca si hay una pieza en estas posicones que no sea la seleccionada
-									if (HayPieza(i) && lista[n]->posicion !=lista[i]->posicion) { 
-										if (lista[i]->posicion.x == x && lista[i]->posicion.y == y) {  // Si hay una pieza entre medias 
-											check = 2; // NO SE PUEDE MOVER AHI
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-
-				if ((c.pos.x - lista[n]->posicion.x) > 0 && (c.pos.y - lista[n]->posicion.y) < 0) {
-					for (float x = lista[n]->posicion.x; x < c.pos.x; x ++ ) {
-						for (float y = lista[n]->posicion.y; y > c.pos.y; y --) {
-
-							if (abs(x - lista[n]->posicion.x) == abs(y - lista[n]->posicion.y)) {
-								for (int i = 0; i < NCasillas * NCasillas; i++) { // Busca si hay una pieza en estas posicones que no sea la seleccionada
-									if (HayPieza(i) && lista[n]->posicion != lista[i]->posicion) {
-										if (lista[i]->posicion.x == x && lista[i]->posicion.y == y) {  // Si hay una pieza entre medias 
-											check = 2; // NO SE PUEDE MOVER AHI
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-	
-
-			if ((c.pos.x - lista[n]->posicion.x) < 0 && (c.pos.y - lista[n]->posicion.y) < 0) {
-				for (float x = lista[n]->posicion.x; x > c.pos.x; x --) {
-					for (float y = lista[n]->posicion.y; y > c.pos.y; y --) {
-
-
-						if (abs(x - lista[n]->posicion.x) == abs(y - lista[n]->posicion.y)) {
-							for (int i = 0; i < NCasillas * NCasillas; i++) { // Busca si hay una pieza en estas posicones que no sea la seleccionada
-								if (HayPieza(i) && lista[n]->posicion != lista[i]->posicion) {
-									if (lista[i]->posicion.x == x && lista[i]->posicion.y == y) {  // Si hay una pieza entre medias 
-										check = 2; // NO SE PUEDE MOVER AHI
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-
-
-			if ((c.pos.x - lista[n]->posicion.x) < 0 && (c.pos.y - lista[n]->posicion.y) > 0) {
-				for (float x = lista[n]->posicion.x-1; x > c.pos.x; x --) {
-					for (float y = lista[n]->posicion.y+1; y < c.pos.y; y ++) {
-						if (abs(x - lista[n]->posicion.x) == abs(y - lista[n]->posicion.y)) {
-
-							for (int i = 0; i < NCasillas * NCasillas; i++) { // Busca si hay una pieza en estas posicones que no sea la seleccionada
-								if (HayPieza(i)) {
-									if (lista[i]->posicion.x == x && lista[i]->posicion.y == y) {  // Si hay una pieza entre medias 
-										check = 2; // NO SE PUEDE MOVER AHI
-									}
-								}
-							}
-						}
-					}
-				}
-			}
 		return check;
 }
 
+//OPTIMIZACIÓN DE ESTA PARTE?-> meter los for uno dentro de otro
+
+
+
+bool Tablero::ComprobacionAlfil() {
+	bool retorno=true;
+
+	if (lista[n]->tipo == Piezas::TIPO::ALFIL) {  // El alfil no puede "saltar" piezas
+		if ((c.pos.x - lista[n]->posicion.x) > 0 && (c.pos.y - lista[n]->posicion.y) > 0) { // Selecciona la diagonal en la que se quiere mover el peon
+			for (float x = lista[n]->posicion.x; x < c.pos.x; x++) { // Comprueba las posiciones de la diagonal desde la posicion de partida hasta la que se quiere mover
+				for (float y = lista[n]->posicion.y; y < c.pos.y; y++) {
+
+					if ((x - lista[n]->posicion.x) == (y - lista[n]->posicion.y)) {
+						for (int i = 0; i < NCasillas * NCasillas; i++) { // Busca si hay una pieza en estas posicones que no sea la seleccionada
+							if (HayPieza(i) && lista[n]->posicion != lista[i]->posicion) {
+								if (lista[i]->posicion.x == x && lista[i]->posicion.y == y) {  // Si hay una pieza entre medias 
+									retorno = false; // NO SE PUEDE MOVER AHI
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		if ((c.pos.x - lista[n]->posicion.x) > 0 && (c.pos.y - lista[n]->posicion.y) < 0) {
+			for (float x = lista[n]->posicion.x; x < c.pos.x; x++) {
+				for (float y = lista[n]->posicion.y; y > c.pos.y; y--) {
+
+					if (abs(x - lista[n]->posicion.x) == abs(y - lista[n]->posicion.y)) {
+						for (int i = 0; i < NCasillas * NCasillas; i++) { // Busca si hay una pieza en estas posicones que no sea la seleccionada
+							if (HayPieza(i) && lista[n]->posicion != lista[i]->posicion) {
+								if (lista[i]->posicion.x == x && lista[i]->posicion.y == y) {  // Si hay una pieza entre medias 
+									retorno = false; // NO SE PUEDE MOVER AHI
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+
+		if ((c.pos.x - lista[n]->posicion.x) < 0 && (c.pos.y - lista[n]->posicion.y) < 0) {
+			for (float x = lista[n]->posicion.x; x > c.pos.x; x--) {
+				for (float y = lista[n]->posicion.y; y > c.pos.y; y--) {
+
+
+					if (abs(x - lista[n]->posicion.x) == abs(y - lista[n]->posicion.y)) {
+						for (int i = 0; i < NCasillas * NCasillas; i++) { // Busca si hay una pieza en estas posicones que no sea la seleccionada
+							if (HayPieza(i) && lista[n]->posicion != lista[i]->posicion) {
+								if (lista[i]->posicion.x == x && lista[i]->posicion.y == y) {  // Si hay una pieza entre medias 
+									retorno = false; // NO SE PUEDE MOVER AHI
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+
+		if ((c.pos.x - lista[n]->posicion.x) < 0 && (c.pos.y - lista[n]->posicion.y) > 0) {
+			for (float x = lista[n]->posicion.x - 1; x > c.pos.x; x--) {
+				for (float y = lista[n]->posicion.y + 1; y < c.pos.y; y++) {
+					if (abs(x - lista[n]->posicion.x) == abs(y - lista[n]->posicion.y)) {
+
+						for (int i = 0; i < NCasillas * NCasillas; i++) { // Busca si hay una pieza en estas posicones que no sea la seleccionada
+							if (HayPieza(i)) {
+								if (lista[i]->posicion.x == x && lista[i]->posicion.y == y) {  // Si hay una pieza entre medias 
+									retorno = false; // NO SE PUEDE MOVER AHI
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	return retorno;
+	
+}
