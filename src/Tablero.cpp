@@ -150,25 +150,26 @@ void Tablero::MueveCursor(unsigned char key) {
 }
 
 void Tablero::Mueve(int n) {
-	int aux=0;
-	Vector PosAntes = { 0.0,0.0 };
+	int aux;
+	bool comer = false;
+	Vector PosAntes;
 
 
-		if (lista[n]->CheckMov(c.pos,Comprobaciones(aux)) == true && lista[n]->seleccionado==true)
+		if (lista[n]->CheckMov(c.pos,Comprobaciones(aux,comer)) == true)
 		{
-
+			PosAntes = lista[n]->posicion;
 			lista[n]->SetPos(Vector{ c.pos.x,c.pos.y });
 
-			if (Comprobaciones(aux)==1) {
+			if (comer) {
 				ETSIDI::play("sonidos/PiezaComida.wav");
 			}
 			turno++;
 			ColocaSelector();	
-
+			
 			// Se crea pieza vacia donde estaba antes
-			PosAntes = lista[aux]->posicion;
 			delete lista[aux];
 			lista[aux] = new NoPieza(PosAntes);
+
 		}
 		else ETSIDI::play("sonidos/error.wav");
 		lista[n]->seleccionado = false;
@@ -210,22 +211,25 @@ bool Tablero::HayPieza(int i) {
 	else return false;
 }
 
-int Tablero::Comprobaciones(int& aux) {
+int Tablero::Comprobaciones(int& aux,bool &comer) {
 	int check = 0;
 	// Se comprueba si donde se quiere mover hay una pieza del otro color o del mismo color
 
 	for (int i = 0; i < NCasillas * NCasillas; i++) {
+		if (c.pos == lista[i]->posicion)
+			if (HayPieza(i) && i != n) { // comprobación de que hay una pieza
 
-		if (HayPieza(i) && c.pos == lista[i]->posicion && i!=n) { // comprobación de que hay una pieza
-
-			if (lista[i]->color != lista[n]->color) { // comprobación de que es de distinto color
-				check = 1;
-				aux = i; // Valor de la posicion en la lista donde estaba la casilla antes de moverse
+				if (lista[i]->color != lista[n]->color) { // comprobación de que es de distinto color
+					check = 1;
+					comer = 1;
+					aux = i; // Valor de la posicion en la lista donde estaba la casilla antes de moverse
+				}
+				else if (lista[i]->color == lista[n]->color) { // comprobación de que es del mismo color 
+					check = 2;
+				}
 			}
-			else if (lista[i]->color == lista[n]->color) { // comprobación de que es del mismo color 
-				check = 2;
-			}
-		}
+			else aux = i;
+	
 	}
 
 	if(ComprobacionAlfil()==false)check=2;
@@ -234,9 +238,6 @@ int Tablero::Comprobaciones(int& aux) {
 	
 		return check;
 }
-
-//OPTIMIZACIÓN DE ESTA PARTE?-> meter los for uno dentro de otro
-
 
 
 bool Tablero::ComprobacionAlfil() {
