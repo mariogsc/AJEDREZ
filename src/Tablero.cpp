@@ -356,5 +356,24 @@ int Tablero::ComprobacionesJaque() {
 	return check;
 }
 
+int Tablero::BuscaPieza(Vector posicion) {
+	int aux;
+
+	for (int i = 0; i < NCasillas * NCasillas; i++)
+	{
+		if (HayPieza(i) && lista[i]->posicion == posicion)aux = i;
+	}
+	return aux;
+};
+
+int Tablero::BuscaPieza(Piezas::TIPO t) {
+	int aux;
+	for (int i = 0; i < NCasillas * NCasillas; i++)
+	{
+		if (HayPieza(i) && lista[i]->tipo == t)aux = i;
+	}
+	return aux;
+};
+
 
 
