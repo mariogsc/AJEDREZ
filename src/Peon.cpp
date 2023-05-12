@@ -27,11 +27,11 @@ bool Peon::CheckMov(Vector v,int check) {
 
 	// Se comprueba si es el primer movimiento del peon para poder avanzar dos casillas
 	if (primeravez) {  
-		if (color == NEGRO && (v.x == posicion.x && v.y == posicion.y + 1.0 || v.x == posicion.x && v.y == posicion.y + 2.0)) {
+		if (color == BLANCO && (v.x == posicion.x && v.y == posicion.y + 1.0 || v.x == posicion.x && v.y == posicion.y + 2.0)) {
 			retorno = true;
 			primeravez = false;
 		}
-		else if (color == BLANCO && (v.x == posicion.x && v.y == posicion.y - 1.0 || v.x == posicion.x && v.y == posicion.y - 2.0)){
+		else if (color == NEGRO && (v.x == posicion.x && v.y == posicion.y - 1.0 || v.x == posicion.x && v.y == posicion.y - 2.0)){
 			retorno = true;
 			primeravez = false;
 		}
@@ -40,18 +40,20 @@ bool Peon::CheckMov(Vector v,int check) {
 	}
 	// movimiento normal del peon (1 casilla)
 	else if (primeravez ==false){ 
-		if (color == NEGRO && v.x == posicion.x && v.y == posicion.y + 1.0) retorno = true;
-		else if (color == BLANCO && v.x == posicion.x && v.y == posicion.y - 1.0)retorno = true;
+		if (color == BLANCO && v.x == posicion.x && v.y == posicion.y + 1.0) retorno = true;
+		else if (color == NEGRO && v.x == posicion.x && v.y == posicion.y - 1.0)retorno = true;
 	}
+
 	// Se compruba si se puede comer o si la casilla de delante esta ocuapada
+
 	if(check==1){
-		if (color == NEGRO) {
+		if (color == BLANCO) {
 			if ((v.x == posicion.x - 1.0 || v.x == posicion.x + 1.0) && v.y == posicion.y + 1.0) {
-				retorno = true; // si la casilla de arriba a los lados esta ocupada 
+				retorno = true; // si la casilla de arriba y a los lados esta ocupada 
 			}
 			else retorno = false;
 		}
-		else if (color == BLANCO) {
+		if (color == NEGRO ) {
 			if ((v.x == posicion.x - 1.0 || v.x == posicion.x + 1.0) && v.y == posicion.y - 1.0)
 			{
 				retorno = true; // si la casilla de debajo y los lados esta ocupada 
