@@ -109,6 +109,14 @@ void Tablero::inicializa() {  // inicializacion de todas las fichas e inclusión
 				{
 					aux = new Caballo(Vector{ i, j }, Piezas::COLOR::NEGRO);
 				}
+				else if (j == 0.0 && (i == 0.0 || i == 7.0))
+				{
+					aux = new Torre(Vector{ i, j }, Piezas::COLOR::BLANCO);
+				}
+				else if(j == 7.0 && (i == 0.0 || i == 7.0)) 
+				{
+					aux = new Torre(Vector{ i, j }, Piezas::COLOR::NEGRO);
+				}
 				else {
 				aux = new NoPieza(Vector{ i,j });
 				}
