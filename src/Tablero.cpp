@@ -306,6 +306,7 @@ bool Tablero::ComprobacionAlfil() {
 						for (int i = 0; i < NCasillas * NCasillas; i++) { // Busca si hay una pieza en estas posicones que no sea la seleccionada
 							if (HayPieza(i)) {
 								if (lista[i]->posicion.x == x && lista[i]->posicion.y == y) {  // Si hay una pieza entre medias 
+									
 									retorno = false; // NO SE PUEDE MOVER AHI
 								}
 							}
@@ -318,3 +319,43 @@ bool Tablero::ComprobacionAlfil() {
 	return retorno;
 	
 }
+
+// INTENTO DE HACER EL JAQUE NO FUNCIONA BIEN
+
+/*
+
+bool Tablero::Jaque() {
+
+	bool retorno = false;	int aux;
+
+	aux = BuscaPieza(Piezas::TIPO::REY);
+
+	for (int i = 0; i < NCasillas * NCasillas; i++) {
+
+	
+
+		if (HayPieza(i) && i!=aux) {
+
+			for (float x = 0.0; x < 7.0; x++) {
+
+				for (float y = 0.0; y < 7.0; y++) {
+
+					if (lista[i]->CheckMov({ x,y }, ComprobacionesJaque()) == true) retorno = true;
+
+				}
+
+			}
+
+			
+
+		}
+
+	}
+
+	return retorno;
+
+}
+
+
+
+
