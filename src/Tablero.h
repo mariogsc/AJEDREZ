@@ -4,12 +4,12 @@ using ETSIDI::Sprite;
 #include <Casilla.h>
 #include <Piezas.h> 
 #include <ColorCasilla.h>
-#include <Peon.h>
 #include <NoPieza.h>
 #include <Vector.h>
 //cada pieza
 #include <Peon.h>
 #include <Alfil.h>
+#include <Torre.h>
 
 
 
