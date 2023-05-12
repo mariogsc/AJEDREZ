@@ -4,38 +4,29 @@
 #include <freeglut.h>
 
 class Marcador {
-    Rectangulo r1, r2, r3, r4, r5;
+    
+    //Finalmente construllo el marcador con la funcion casilla
+    
+ Casilla r1;
 public:
-    void DibujaMarcador() { 
-        r1.DibujaRectangulo();
-        r2.DibujaRectangulo();
+
+    Marcador() {
+        r1.SetAlto(9.0);
+        r1.SetAncho(3.0);
+        r1.SetColor(200,0,200);
+    }
+
+
+    void DibujaMarcador() {
+        r1.DibujaCasilla({ 9.0,0.0 }, {});
+
+      /*  r2.DibujaRectangulo(); //continuar y situar los 5 cuadrados para generar un marcador
         r3.DibujaRectangulo();
         r4.DibujaRectangulo();
         r5.DibujaRectangulo();
-    }
-};
 
-class Rectangulo {
-private:
-    float base, altura;
-    Vector posicion;
-    ColorCasilla color;
-public:
-    Rectangulo(Vector v, ColorCasilla c,float ancho, float alto) {
-        base = ancho;
-        altura = alto;
-        posicion = v;
-        color = c;
+        */
+        
     }
-
-    void DibujaRectangulo() {
-        glDisable(GL_LIGHTING);
-        glBegin(GL_POLYGON);
-        glVertex3f(posicion.x, posicion.y, 0.0f);
-        glVertex3f(posicion.x+base, posicion.y, 0.0f);
-        glVertex3f(posicion.x+base, posicion.y+altura, 0.0f);
-        glVertex3f(posicion.x,posicion.y+altura, 0.0f);
-        glEnd();
-        glEnable(GL_LIGHTING);
-    };
-};
+};    
+ 
