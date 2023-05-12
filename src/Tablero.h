@@ -35,5 +35,5 @@ public:
 	int Selecciona();
 	void ColocaSelector();
 	bool HayPieza(int i);
-	int ComprobacionColor(int &aux, Vector &v);
+	int Comprobaciones(int &aux, bool& comer);
 };
