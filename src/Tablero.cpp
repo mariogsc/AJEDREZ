@@ -321,41 +321,40 @@ bool Tablero::ComprobacionAlfil() {
 }
 
 // INTENTO DE HACER EL JAQUE NO FUNCIONA BIEN
-
 /*
-
 bool Tablero::Jaque() {
-
 	bool retorno = false;	int aux;
-
 	aux = BuscaPieza(Piezas::TIPO::REY);
-
 	for (int i = 0; i < NCasillas * NCasillas; i++) {
-
-	
-
 		if (HayPieza(i) && i!=aux) {
-
 			for (float x = 0.0; x < 7.0; x++) {
-
-				for (float y = 0.0; y < 7.0; y++) {
-
+			       for (float y = 0.0; y < 7.0; y++) {
 					if (lista[i]->CheckMov({ x,y }, ComprobacionesJaque()) == true) retorno = true;
-
 				}
-
 			}
-
-			
-
 		}
-
 	}
-
 	return retorno;
-
 }
 
+int Tablero::ComprobacionesJaque() {
+	int check = 0;
+	int aux = BuscaPieza(Piezas::TIPO::REY);
+
+	for (int i = 0; i < NCasillas * NCasillas; i++) {
+		if (c.pos == lista[i]->posicion)
+			if (HayPieza(i) && i != aux) { // comprobación de que hay una pieza
+				if (lista[i]->color != lista[aux]->color) { // comprobación de que es de distinto color
+					check = 1;
+				}
+				else if (lista[i]->color == lista[aux]->color) { // comprobación de que es del mismo color 
+					check = 2;
+				}
+			}
+	}
+	if (ComprobacionAlfil() == false)check = 2;
+	return check;
+}
 
 
 
