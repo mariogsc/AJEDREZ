@@ -186,13 +186,13 @@ int Tablero::Selecciona() {
 				{
 					if (turno % 2 != 0 && lista[i]->color == Piezas::COLOR::BLANCO){ // turno de blancas y pieza seleccionada negra
 							lista[i]->seleccionado = true;
+						retorno = i;
 					}
 					else if (turno % 2 == 0 && lista[i]->color == Piezas::COLOR::NEGRO){ // turno de negras y pieza seleccionada blanca
 						lista[i]->seleccionado = true;
+						retorno = i;
 					}
 					else ETSIDI::play("sonidos/error.wav");
-
-					retorno = i;
 				}
 			}
 			else if(lista[i]->tipo==Piezas::TIPO::NT && c.pos==lista[i]->posicion)ETSIDI::play("sonidos/error.wav");
