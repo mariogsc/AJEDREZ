@@ -93,13 +93,21 @@ void Tablero::inicializa() {  // inicializacion de todas las fichas e inclusión
 				{
 					aux = new Alfil(Vector{ i, j }, Piezas::COLOR::NEGRO);
 				}
-				else if (j == 0.0 && i == 3.0)
+				else if (j == 0.0 && i == 4.0)
 				{
 					aux = new Rey(Vector{ i, j }, Piezas::COLOR::BLANCO);
 				}
-				else if (j == 7.0 && i == 3.0)
+				else if (j == 7.0 && i == 4.0)
 				{
 					aux = new Rey(Vector{ i, j }, Piezas::COLOR::NEGRO);
+				}
+				else if (j == 0.0 && i == 3.0)
+				{
+				aux = new Reina(Vector{ i, j }, Piezas::COLOR::BLANCO);
+				}
+				else if (j == 7.0 && i == 3.0)
+				{
+				aux = new Reina(Vector{ i, j }, Piezas::COLOR::NEGRO);
 				}
 				else if (j == 0.0 && (i == 1.0||i==6.0))
 				{
