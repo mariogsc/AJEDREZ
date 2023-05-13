@@ -10,6 +10,7 @@ using ETSIDI::Sprite;
 #include <Peon.h>
 #include <Alfil.h>
 #include <Torre.h>
+#inlcude <Reina.h>
 
 
 
@@ -35,5 +36,13 @@ public:
 	int Selecciona();
 	void ColocaSelector();
 	bool HayPieza(int i);
-	int Comprobaciones(int &aux, bool& comer);
+	bool HayRey(int i);
+	int BuscaPieza(Vector posicion);
+	int BuscaPieza(Piezas::TIPO t);
+	int Comprobaciones(int &aux,bool &comido);
+	bool ComprobacionAlfil();
+	bool ComprobacionTorre();
+	bool ComprobacionReinaA();
+	bool ComprobacionReinaB();
+	bool Jaque();
 };
