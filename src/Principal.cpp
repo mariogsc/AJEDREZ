@@ -11,7 +11,6 @@ using ETSIDI::Sprite;
 Tablero tablero;
 ColorCasilla color1,color2;
 MenuInicial menu;
-Marcador marcador;
 
 //los callback, funciones que seran llamadas automaticamente por la glut cuando sucedan eventos
 //NO HACE FALTA LLAMARLAS EXPLICITAMENTE
