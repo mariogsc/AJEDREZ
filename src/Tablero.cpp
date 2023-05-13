@@ -233,6 +233,8 @@ int Tablero::Comprobaciones(int& aux,bool &comer) {
 	}
 
 	if(ComprobacionAlfil()==false)check=2;
+	if(ComprobacionTorre()==false)check=2;
+	
 
 
 	
@@ -319,6 +321,90 @@ bool Tablero::ComprobacionAlfil() {
 	return retorno;
 	
 }
+
+bool Tablero::ComprobacionTorre() {
+	bool retorno = true;
+	if (lista[n]->tipo == Piezas::TIPO::TORRE) {
+		//COMPROBACION EJE X POSITIVO
+		if ((c.pos.x - lista[n]->posicion.x ) > 0) {
+
+			for (float x = lista[n]->posicion.x; x < c.pos.x; x++)
+			{
+				for (int i = 0; i < NCasillas*NCasillas; i++)
+				{
+					if (HayPieza(i) && lista[n]->posicion != lista[i]->posicion) {
+						if (lista[i]->posicion.x == x && lista[i]->posicion.y == lista[n]->posicion.y) {  // Si hay una pieza entre medias  
+							retorno = false;
+						}
+					}
+
+				}
+			}
+
+
+		}
+
+		//COMPROBACCION EJE Y POSITIVO
+		if ((c.pos.y - lista[n]->posicion.y)>0) {
+			for (float y = lista[n]->posicion.y; y < c.pos.y; y++)
+			{
+				for (int i = 0; i < NCasillas*NCasillas; i++)
+				{
+					if (HayPieza(i) && n!=i ) {
+						if (lista[i]->posicion.x == lista[n]->posicion.x && lista[i]->posicion.y == y) {  // Si hay una pieza entre medias  
+							retorno = false;
+						}
+					}
+
+				}
+			}
+
+		}
+		
+		//COMPROBACION EJE X NEGATIVO
+		if ((c.pos.x - lista[n]->posicion.x) < 0) {
+
+			for (float x = lista[n]->posicion.x; x > c.pos.x; x--)
+			{
+				for (int i = 0; i < NCasillas * NCasillas; i++)
+				{
+					if (HayPieza(i) && lista[n]->posicion != lista[i]->posicion) {
+						if (lista[i]->posicion.x == x && lista[i]->posicion.y == lista[n]->posicion.y) {  // Si hay una pieza entre medias  
+							retorno = false;
+						}
+					}
+
+				}
+			}
+
+
+		}
+
+		//COMPROBACION EJE Y NEGATIVO
+		if ((c.pos.y - lista[n]->posicion.y) < 0) {
+			for (float y = lista[n]->posicion.y; y > c.pos.y; y--)
+			{
+				for (int i = 0; i < NCasillas * NCasillas; i++)
+				{
+					if (HayPieza(i) && n != i) {
+						if (lista[i]->posicion.x == lista[n]->posicion.x && lista[i]->posicion.y == y) {  // Si hay una pieza entre medias  
+							retorno = false;
+						}
+					}
+
+				}
+			}
+
+		}
+		
+
+	}
+	
+	return retorno;
+}
+
+
+
 
 // INTENTO DE HACER EL JAQUE NO FUNCIONA BIEN
 /*
