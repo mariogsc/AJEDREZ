@@ -490,7 +490,82 @@ bool Tablero::Jaque() {
 			}
 		}
 
-	
+	if (lista[n]->tipo == Piezas::TIPO::TORRE)
+	{
+			//COMPROBACION EJE X POSITIVO
+			if ((c.pos.x - lista[n]->posicion.x) >= 0) {
+
+				for (float x = lista[n]->posicion.x; x <= c.pos.x; x++)
+				{
+					for (int i = 0; i < NCasillas * NCasillas; i++)
+					{
+						if (lista[i]->tipo == Piezas::TIPO::REY) {
+							if (lista[i]->posicion.x == x && lista[i]->posicion.y == lista[n]->posicion.y) {  // Si hay una pieza entre medias  
+								rey = false;
+							}
+						}
+
+					}
+				}
+
+
+			}
+
+			//COMPROBACCION EJE Y POSITIVO
+			if ((c.pos.y - lista[n]->posicion.y) >= 0) {
+				for (float y = lista[n]->posicion.y; y <= c.pos.y; y++)
+				{
+					for (int i = 0; i < NCasillas * NCasillas; i++)
+					{
+						if (lista[i]->tipo == Piezas::TIPO::REY) {
+							if (lista[i]->posicion.x == lista[n]->posicion.x && lista[i]->posicion.y == y) {  // Si hay una pieza entre medias  
+								rey = false;
+							}
+						}
+
+					}
+				}
+
+			}
+
+			//COMPROBACION EJE X NEGATIVO
+			if ((c.pos.x - lista[n]->posicion.x) <= 0) {
+
+				for (float x = lista[n]->posicion.x; x >= c.pos.x; x--)
+				{
+					for (int i = 0; i < NCasillas * NCasillas; i++)
+					{
+						if (lista[i]->tipo == Piezas::TIPO::REY) {
+							if (lista[i]->posicion.x == x && lista[i]->posicion.y == lista[n]->posicion.y) {  // Si hay una pieza entre medias  
+								rey = false;
+							}
+						}
+
+					}
+				}
+
+
+			}
+
+			//COMPROBACION EJE Y NEGATIVO
+			if ((c.pos.y - lista[n]->posicion.y) <= 0) {
+				for (float y = lista[n]->posicion.y; y >= c.pos.y; y--)
+				{
+					for (int i = 0; i < NCasillas * NCasillas; i++)
+					{
+						if (lista[i]->tipo == Piezas::TIPO::REY) {
+							if (lista[i]->posicion.x == lista[n]->posicion.x && lista[i]->posicion.y == y) {  // Si hay una pieza entre medias  
+								rey = false;
+							}
+						}
+
+					}
+				}
+
+			}
+	}
+		return rey;
+}
 	return rey;
 }
 
