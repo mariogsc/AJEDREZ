@@ -234,6 +234,7 @@ int Tablero::Comprobaciones(int& aux,bool &comer) {
 
 	if(ComprobacionAlfil()==false)check=2;
 	if(ComprobacionTorre()==false)check=2;
+	if(Jaque()==false)check=2;
 	
 
 
@@ -404,7 +405,95 @@ bool Tablero::ComprobacionTorre() {
 }
 
 
+bool Tablero::Jaque() {
+	bool rey = true;
 
+
+	if (lista[n]->tipo == Piezas::TIPO::ALFIL) 
+	{  // El alfil no puede "saltar" piezas
+
+		if ((c.pos.x - lista[n]->posicion.x) > 0 && (c.pos.y - lista[n]->posicion.y) > 0) {
+			for (float x = lista[n]->posicion.x; x <= c.pos.x; x++) {
+				for (float y = lista[n]->posicion.y; y <= c.pos.y; y++) {
+
+
+					if (abs(x - lista[n]->posicion.x) == abs(y - lista[n]->posicion.y)) {
+						for (int i = 0; i < NCasillas * NCasillas; i++) { // Busca si hay una pieza en estas posicones que no sea la seleccionada
+							if (lista[i]->tipo == Piezas::TIPO::REY) {
+								if (lista[i]->posicion.x == x - 1 && lista[i]->posicion.y == y - 1) {// Si hay una pieza entre medias 
+									rey = false; // NO SE PUEDE MOVER AHI
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+
+
+
+		if ((c.pos.x - lista[n]->posicion.x) > 0 && (c.pos.y - lista[n]->posicion.y) < 0) {
+			for (float x = lista[n]->posicion.x; x <= c.pos.x; x++) {
+				for (float y = lista[n]->posicion.y; y >= c.pos.y; y--) {
+
+
+					if (abs(x - lista[n]->posicion.x) == abs(y - lista[n]->posicion.y)) {
+						for (int i = 0; i < NCasillas * NCasillas; i++) { // Busca si hay una pieza en estas posicones que no sea la seleccionada
+							if (lista[i]->tipo == Piezas::TIPO::REY) {
+								if (lista[i]->posicion.x == x - 1 && lista[i]->posicion.y == y - 1) {// Si hay una pieza entre medias 
+									rey = false; // NO SE PUEDE MOVER AHI
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+
+
+		if ((c.pos.x - lista[n]->posicion.x) < 0 && (c.pos.y - lista[n]->posicion.y) < 0) {
+			for (float x = lista[n]->posicion.x; x >= c.pos.x; x--) {
+				for (float y = lista[n]->posicion.y; y >= c.pos.y; y--) {
+
+
+					if (abs(x - lista[n]->posicion.x) == abs(y - lista[n]->posicion.y)) {
+						for (int i = 0; i < NCasillas * NCasillas; i++) { // Busca si hay una pieza en estas posicones que no sea la seleccionada
+							if (lista[i]->tipo == Piezas::TIPO::REY) {
+								if (lista[i]->posicion.x == x-1  && lista[i]->posicion.y == y-1 ) {// Si hay una pieza entre medias 
+									rey = false; // NO SE PUEDE MOVER AHI
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+
+
+		if ((c.pos.x - lista[n]->posicion.x) < 0 && (c.pos.y - lista[n]->posicion.y) > 0) {
+			for (float x = lista[n]->posicion.x; x >= c.pos.x; x--) {
+				for (float y = lista[n]->posicion.y; y <= c.pos.y; y++) {
+
+
+					if (abs(x - lista[n]->posicion.x) == abs(y - lista[n]->posicion.y)) {
+						for (int i = 0; i < NCasillas * NCasillas; i++) { // Busca si hay una pieza en estas posicones que no sea la seleccionada
+							if (lista[i]->tipo == Piezas::TIPO::REY) {
+								if (lista[i]->posicion.x == x - 1 && lista[i]->posicion.y == y - 1) {// Si hay una pieza entre medias 
+									rey = false; // NO SE PUEDE MOVER AHI
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+	
+	return rey;
+}
 
 // INTENTO DE HACER EL JAQUE NO FUNCIONA BIEN
 /*
