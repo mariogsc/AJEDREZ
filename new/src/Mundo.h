@@ -16,4 +16,5 @@ public:
 	void teclaEspecial(unsigned char key);
 	void dibuja();
 	void inicializa();
+	void Raton(int button, int state, int x, int y);
 };
