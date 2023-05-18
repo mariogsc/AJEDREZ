@@ -48,3 +48,7 @@ void Mundo::tecla(unsigned char key)
 
 	menu.tecla(key);
 }
+
+void Mundo::Raton(int button, int state, int x, int y) {
+	tablero.Raton(button,state,x,y);
+}
