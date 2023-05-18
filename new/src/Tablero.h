@@ -36,6 +36,7 @@ public:
 	void mover(Vector& origen, Vector& destino, Pieza* t[8][8]);
 	void DibujaPiezas();
 	void MoverPiezas();
+	void Raton(int button, int state, int x, int y);
 	
 	// FUNCIONES DE INTERFAZ
 	int getTurno() { return turno; }
