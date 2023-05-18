@@ -156,3 +156,52 @@ void Tablero::DibujaPiezas()
 			}
 		}
 }
+
+
+void Tablero::Raton(int button, int state, int x, int y) {
+	int fila, columna;
+	Vector origen;
+	Vector destino;
+
+
+	if (((x > 22) && (x < 572)) && ((y > 24) && (y < 574))) {
+		if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
+
+			x = x - 22;
+			y = y - 24;
+
+			int fila = static_cast<int>(x / 68.75);
+			int columna = static_cast<int>(y / 68.75);
+
+				if (turno % 2 != 0) { // Si el turno es impar -> turno blancas
+					if (tablero[columna][fila] != nullptr && tablero[columna][fila]->getColor() == Pieza::Blanco) {
+
+						origen.setx(columna);
+						origen.sety(fila);
+					}
+				}
+				else if (turno % 2 == 0) { // Si el turno es par -> turno negras
+					if (tablero[columna][fila] != nullptr && tablero[columna][fila]->getColor() == Pieza::Negro) {
+						origen.setx(columna);
+						origen.sety(fila);
+					}
+				}
+		}
+		else if (button == GLUT_LEFT_BUTTON && state == GLUT_UP) {
+
+			// Verificar que la posición de origen sea válida y haya una pieza en esa posición
+			if (origen.getx() >= 0 && origen.getx() < MAX_CASILLAS && origen.gety() >= 0 && origen.gety() < MAX_CASILLAS &&
+				tablero[origen.getx()][origen.gety()] != nullptr) {
+				// Verificar si el movimiento es válido
+				destino.setx(columna);
+				destino.sety(fila);
+
+				if (tablero[origen.getx()][origen.gety()]->validarMovimiento(origen, destino)) {
+					// Realizar el movimiento
+					mover(origen, destino, tablero); // COMO PONE X,Y EN VEZ DE DESTINO
+					turno++;
+				}
+			}
+		}
+	}
+}
