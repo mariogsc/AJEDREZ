@@ -10,6 +10,7 @@ void OnDraw(void); //esta funcion sera llamada para dibujar
 void OnTimer(int value); //esta funcion sera llamada cuando transcurra una temporizacion
 void OnKeyboardDown(unsigned char key, int x, int y); //cuando se pulse una tecla	
 void onSpecialKeyboardDown(int key, int x, int y);
+void onMouse(int button, int state, int x, int y);
 
 int main(int argc,char* argv[])
 {
@@ -33,6 +34,7 @@ int main(int argc,char* argv[])
 	glutTimerFunc(25,OnTimer,0);//le decimos que dentro de 25ms llame 1 vez a la funcion OnTimer()
 	glutKeyboardFunc(OnKeyboardDown);
 	glutSpecialFunc(onSpecialKeyboardDown); //gestion de los cursores para poder usar las flechas
+	glutMouseFunc(onMouse);  //gesti贸n para usar el rat贸n
 
 	mundo.inicializa();
 		
@@ -58,7 +60,7 @@ void OnDraw(void)
 }
 void OnKeyboardDown(unsigned char key, int x_t, int y_t)
 {
-	//poner aqui el c骴igo de teclado
+	//poner aqui el c贸digo de teclado
 	mundo.tecla(key);
 
 	glutPostRedisplay();
@@ -66,7 +68,7 @@ void OnKeyboardDown(unsigned char key, int x_t, int y_t)
 
 void OnTimer(int value)
 {
-//poner aqui el c骴igo de animacion
+//poner aqui el c贸digo de animacion
 
 	//no borrar estas lineas
 	glutTimerFunc(25,OnTimer,0);
@@ -76,4 +78,8 @@ void OnTimer(int value)
 void onSpecialKeyboardDown(int key, int x, int y)
 {
 	mundo.teclaEspecial(key);
+}
+
+void onMouse(int button, int state, int x, int y) {
+	mundo.Raton(button, state, x, y);
 }
