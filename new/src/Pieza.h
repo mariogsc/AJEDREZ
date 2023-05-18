@@ -1,5 +1,7 @@
 #pragma once
 #include <Vector.h>
+#include "ETSIDI.h"
+using ETSIDI::Sprite;
 
 class Pieza
 {
@@ -8,19 +10,30 @@ public:
     enum TIPO { PEON, REY, REINA, ALFIL, TORRE, CABALLO };
    protected:
        COLOR color;
-       TIPO t;
-      
-      //TAMAÑO DE LAS FICHAS
-   public:
-       // Constructor por defecto
-       Pieza(COLOR col) : color(col) {}
-      
+       TIPO tipo;
+       const float tam = 1.0;
+       Sprite imagen;
 
-      // Método para obtener el tipo de la pieza, se utiliza polimorfismo
-       virtual TIPO getTipo() {};
+       //Constructor comun a las piezas
+       Pieza(TIPO t, COLOR color, const char* fdibujo):tipo(t), color(color), imagen(fdibujo, 0, 0, tam, tam) {
+           imagen.setCenter(0.0, 0.0);
+       };
+       
+   public:
+       void Dibuja() {
+           glPushMatrix();
+           imagen.draw();
+           glEnd();
+       }
+
+       
+      // FUNCIONES DE INTERFAZ
+       TIPO getTipo() { return tipo;}
+       COLOR getColor() { return color; }
 
        // Método para validar un movimiento de la pieza, se uiliza polimorfismo
-       virtual bool validarMovimiento(Vector origen,Vector destino); //Hay que pasarle el tablero o hacerlo friend
-    
+
+       virtual bool validarMovimiento(Vector& origen, Vector& destino,Tablero &tablero) { return true; } 
+       // DA ERROR AL PASAR EL TABLERO
 
 };
