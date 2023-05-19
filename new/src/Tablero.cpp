@@ -55,14 +55,14 @@ void Tablero::inicializa() {  // inicializacion de todas las fichas e inclusión
 	tablero[6][7] = new Caballo(Pieza::Negro);
 	tablero[4][7] = new Rey(Pieza::Negro);
 	tablero[3][7] = new Reina(Pieza::Negro);
-	tablero[0][6] = new Peon(Pieza::Blanco);
-	tablero[1][6] = new Peon(Pieza::Blanco);
-	tablero[2][6] = new Peon(Pieza::Blanco);
-	tablero[3][6] = new Peon(Pieza::Blanco);
-	tablero[4][6] = new Peon(Pieza::Blanco);
-	tablero[5][6] = new Peon(Pieza::Blanco);
-	tablero[6][6] = new Peon(Pieza::Blanco);
-	tablero[7][6] = new Peon(Pieza::Blanco);
+	tablero[0][6] = new Peon(Pieza::Negro);
+	tablero[1][6] = new Peon(Pieza::Negro);
+	tablero[2][6] = new Peon(Pieza::Negro);
+	tablero[3][6] = new Peon(Pieza::Negro);
+	tablero[4][6] = new Peon(Pieza::Negro);
+	tablero[5][6] = new Peon(Pieza::Negro);
+	tablero[6][6] = new Peon(Pieza::Negro);
+	tablero[7][6] = new Peon(Pieza::Negro);
 	
 
 	//numero = MAX_PIEZAS;
