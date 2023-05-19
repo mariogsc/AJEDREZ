@@ -1,33 +1,25 @@
-#include <Rey.h>
+#include "Rey.h"
 #include <ETSIDI.h>
 #include <freeglut.h>
 
+Rey::Rey(COLOR c) :Pieza(TORRE, c, c == Blanco ? "imagenes/ReyBlanco.png" : "imagenes/ReyNegro.png") {}
 
-Rey::Rey(Vector p, COLOR c) {
-	tipo = REY;
-	color = c;
-	posicion = p;
-	ImagenReyN.setCenter(0.0, 0.0);
-	ImagenReyB.setCenter(0.0, 0.0);
-}
+bool Rey::validarMovimiento(Vector origen, Vector destino, Tablero& tablero) {
 
-void Rey::Dibuja() { // Dibujamos el peon
+    if (origen == destino) {//para que no seleccione a su propia ficha como verde
+        return false;
+    }
 
-	glPushMatrix();
-	glTranslatef(posicion.x, posicion.y, 0.1); // Transladamos un poco por arriba del tablero (eje z)
-	if (color == BLANCO) ImagenReyB.draw();
-	else if (color == NEGRO) ImagenReyN.draw();
-	glPopMatrix();
+    if ((tablero.getPieza(destino.x, destino.y) != nullptr) && (tablero.getPieza(origen.x, origen.y)->getColor() == tablero.getPieza(destino.x, destino.y)->getColor()))  return false;
+    //esto sirve para que no seleccione piezas de su mismo color
 
-}
+    int distanciaX = abs(destino.x - origen.x);
+    int distanciaY = abs(destino.y - origen.y);
 
-bool Rey::CheckMov(Vector v, int check) {
-	bool retorno = false;
-	if (check != 2)
-	{
-		if ((v.x == posicion.x + 1 && v.y == posicion.y + 1) || (v.x == posicion.x + 1 && v.y == posicion.y) || (v.x == posicion.x + 1 && v.y == posicion.y - 1) || (v.x == posicion.x && v.y == posicion.y - 1) || (v.x == posicion.x - 1 && v.y == posicion.y - 1) || (v.x == posicion.x && v.y == posicion.y - 1) || (v.x == posicion.x - 1 && v.y == posicion.y + 1) || (v.x == posicion.x && v.y == posicion.y - 1))retorno = true;
-	}
-	else return false;
-	return retorno;
+    // El rey puede moverse una casilla en cualquier dirección
+    if (distanciaX <= 1 && distanciaY <= 1) {
+        return true;
+    }
 
+    return false;
 }
