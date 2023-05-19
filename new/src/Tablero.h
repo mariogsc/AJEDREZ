@@ -7,6 +7,7 @@ using ETSIDI::Sprite;
 #include <Pieza.h>
 #include <Torre.h>
 #include <Caballo.h>
+#include<Rey.h>
 
 #define MAX_CASILLAS 8
 #define MAX_PIEZAS 24
