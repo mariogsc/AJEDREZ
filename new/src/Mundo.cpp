@@ -65,7 +65,7 @@ void Mundo::Raton(int button, int state, int x, int y) {
 	
 
 	// CONVERSIÓN DE PIXELES DE LA VENTANA A CASILLAS DEL TABLERO
-	x = x/(550/8);
+	x = (x-22)/(550/8);
 	y = 7-((y - 24)/(550/8));
 
 	int columna = static_cast<int>(x );
