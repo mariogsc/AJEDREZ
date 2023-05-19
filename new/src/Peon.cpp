@@ -1,121 +1,31 @@
-
 #include "Peon.h"
 #include <ETSIDI.h>
 #include <freeglut.h>
 
-Peon::Peon(COLOR c) :Pieza(TORRE, c, c == Blanco ? "imagenes/PeonBlanco.png" : "imagenes/PeonNegro.png") {}
-
-//No come 
-/*
-bool Peon::validarMovimiento(Vector origen, Vector destino, Tablero& tablero) {
-    int deltaX = abs(origen.x - destino.x);
-    int deltaY = abs(origen.y - destino.y);
-
-    if (deltaX == 0 && deltaY == 1) {
-        // Movimiento vertical de una posición
-        if (tablero.getPieza(destino.x, destino.y) != nullptr) {
-            // Si hay una pieza en el destino, el movimiento es inválido
-            return false;
-        }
-    }
-    else if (deltaX == 0 && deltaY == 2 && origen.y == 1) {
-        // Primer movimiento del peón, avanza dos posiciones
-        int minY = min(origen.y, destino.y) + 1;
-        int maxY = max(origen.y, destino.y);
-
-        for (int y = minY; y < maxY; y++) {
-            if (tablero.getPieza(origen.x, y) != nullptr) {
-                // Si hay una pieza en el camino, el movimiento es inválido
-                return false;
-            }
-        }
-    }
-    else if (deltaX == 1 && deltaY == 1) {
-        // Movimiento diagonal de una posición
-        if (tablero.getPieza(destino.x, destino.y) == nullptr) {
-            // Si no hay una pieza en el destino, el movimiento es inválido
-            return false;
-        }
-    }
-    else {
-        // Movimiento inválido
-        return false;
-    }
-
-    return true;
-
-
-
-}
-
-*/
-
-
-//Come pero hace falta hacer distincion entre blancas y negras
+Peon::Peon(COLOR c) :Pieza(PEON, c, c == Blanco ? "imagenes/PeonBlanco.png" : "imagenes/PeonNegro.png") {}
 
 bool Peon::validarMovimiento(Vector origen, Vector destino, Tablero& tablero) {
 
-    int VariacionX = destino.x - origen.x;
-    int VariacionY = destino.y - origen.y;
-   
-    /*
-    
-    if (tablero.getPieza(origen.x, origen.y)->getColor() == Pieza::Blanco) {
-        if (VariacionY <= 0) {
-            // El peón no puede avanzar hacia atrás
-            return false;
-        }
-    }
-    else if (VariacionY >= 0) {
-        return false;
-    }
-    */
-    if (VariacionY <= 0) {
-        // El peón no puede avanzar hacia atrás
-        return false;
-    }
+    int dirMov = (tablero.getPieza(origen.x,origen.y)->getColor() == Blanco) ? 1 : -1;  //Comprobar si se mueven las blancas o las negras ( ya que unas van para arriba y otras para abajo)
 
-    
-
-    if (VariacionX == 0 && VariacionY == 1) {
-        // Movimiento vertical de una posición
-        if (tablero.getPieza(destino.x, destino.y) != nullptr) {
-            // Si hay una pieza en el destino, el movimiento es inválido
-            return false;
-        }
-    }
-    else if (VariacionX == 0 && VariacionY == 2 && origen.y == 1) {
-        // Primer movimiento del peón, avanza dos posiciones
-        int minY = min(origen.y, destino.y) + 1;
-        int maxY = max(origen.y, destino.y);
-
-        for (int y = minY; y < maxY; y++) {
-            if (tablero.getPieza(origen.x, y) != nullptr) {
-                // Si hay una pieza en el camino, el movimiento es inválido
-                return false;
+    //Para el primer movimiento del pe�n (opci�n de avanzar dos casillas)
+    if (origen.x == destino.x && origen.y + 2 * dirMov == destino.y){
+        if (tablero.getPieza(origen.x, origen.y)->getColor() == Blanco && origen.y == 1 || (tablero.getPieza(origen.x, origen.y)->getColor() == Negro && origen.y == 6)) {
+            if (tablero.getPieza(destino.x, destino.y) == nullptr && tablero.getPieza(destino.x, destino.y - dirMov) == nullptr) {  //Para comprobar que no salta ninguna casilla
+                return true;
             }
         }
     }
-    else if (VariacionX == 1 && VariacionY == 1) {
-        // Movimiento diagonal de una posición
-        if (tablero.getPieza(destino.x, destino.y) == nullptr) {
-            // Si no hay una pieza en el destino, el movimiento es inválido
-            return false;
+
+    if ((origen.x == destino.x) && (origen.y + dirMov == destino.y) && (tablero.getPieza(destino.x, destino.y) == nullptr)) {  //Movimiento normal hacia adelante
+        return true;
+    }
+
+    if (((origen.x - destino.x) == 1 || (origen.x - destino.x) == -1 ) && origen.y + dirMov == destino.y) {     //Movimiento de captura diagonal  
+        if (tablero.getPieza(destino.x, destino.y) != nullptr && tablero.getPieza(origen.x, origen.y)->getColor() != tablero.getPieza(destino.x, destino.y)->getColor()) {
+            return true;
         }
     }
-    else {
-        // Movimiento inválido
-        return false;
-    }
 
-    return true;
-
-
-
-
-
+    return false;
 }
-
-
-
-

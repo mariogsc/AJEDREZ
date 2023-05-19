@@ -1,4 +1,3 @@
-
 #pragma once
 #include <ETSIDI.h>
 using ETSIDI::Sprite;
@@ -13,9 +12,9 @@ class Peon :public Pieza
 {
 
 public:
-
 	Peon(COLOR c);
 
 	bool validarMovimiento(Vector origen, Vector destino, Tablero& tablero);
 	void DibujaPosible(Vector origen, Tablero& t);
 };
+
