@@ -35,6 +35,7 @@ void Tablero::inicializa() {  // inicializacion de todas las fichas e inclusión
 	tablero[5][0] = new Alfil(Pieza::Blanco);
 	tablero[1][0] = new Caballo(Pieza::Blanco);
 	tablero[6][0] = new Caballo(Pieza::Blanco);
+	tablero[4][0] = new Rey(Pieza::Blanco);
 
 	// NEGRAS
 	tablero[7][7] = new Torre(Pieza::Negro);
@@ -43,6 +44,7 @@ void Tablero::inicializa() {  // inicializacion de todas las fichas e inclusión
 	tablero[5][7] = new Alfil(Pieza::Negro);
 	tablero[1][7] = new Caballo(Pieza::Negro);
 	tablero[6][7] = new Caballo(Pieza::Negro);
+	tablero[4][7] = new Rey(Pieza::Negro);
 	
 
 	//numero = MAX_PIEZAS;
