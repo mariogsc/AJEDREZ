@@ -221,23 +221,54 @@ Vector Tablero::hayRey() {
 }
 
 void Tablero::Jaque() {
-	Vector posRey;
-	for (int i = 0; i < 8; i++) {
-		for (int j = 0; j < 8; j++) {
-			if ((getPieza(i, j) != nullptr) && getPieza(i, j)->getTipo() == Pieza::REY);
-			posRey.x = 4;
-			posRey.y = 7;
+	///TURNO DE NEGRAS, TRATO DE BUSCAR QUE PIEZAS BLANCAS HACEN JAQUE AL REY NEGRO
+	Vector posicionRey;
+
+
+	for (int i = 0; i < MAX_CASILLAS; i++) {
+		for (int j = 0; j < MAX_CASILLAS; j++) {
+			if (getPieza(i,j) != nullptr && getPieza(i,j)->getTipo() == Pieza::REY && getPieza(i, j)->getColor() == Pieza::Negro && turno%2==0) {//turno de negras, busca la posicion del rey negro cuando es el turno de negras
+				posicionRey.x = i;//asigno la posicion del rey al vector posicionRey
+				posicionRey.y = j;
+				break;
+			}
 		}
 	}
-	std::cout << posRey.x<< posRey.y;
-	
-	for (int i = 0; i < 8; i++) {
-		for (int j = 0; j < 8; j++) {
-			if (getPieza({ i,j }) != nullptr) {
-				if (getPieza(i, j)->validarMovimiento({ i,j }, { (posRey.x, posRey.y) }, *this)) {
-					exit(0);
+
+	// Comprobar si alguna pieza del color opuesto puede atacar al rey
+	for (int i = 0; i < MAX_CASILLAS; i++) {
+		for (int j = 0; j < MAX_CASILLAS; j++) {
+			if (getPieza(i,j) != nullptr && getPieza(i,j)->getColor() == Pieza::Blanco) {
+				Vector origen(i, j);
+				if (tablero[i][j]->validarMovimiento(origen, posicionRey, *this)) {
+					exit(0); // Jaque detectado
 				}
 			}
 		}
 	}
+
+
+	//TURNO DE BLANCAS, TRATO DE BUSCAR SI ALGUNA PIEZA NEGRA HACE JAQUE AL REY BLANCO
+	for (int i = 0; i < MAX_CASILLAS; i++) {
+		for (int j = 0; j < MAX_CASILLAS; j++) {
+			if (getPieza(i, j) != nullptr && getPieza(i, j)->getTipo() == Pieza::REY && getPieza(i, j)->getColor() == Pieza::Blanco && turno % 2 != 0) {
+				posicionRey.x = i;
+				posicionRey.y = j;
+				break;
+			}
+		}
+	}
+
+	// Comprobar si alguna pieza del color opuesto puede atacar al rey
+	for (int i = 0; i < MAX_CASILLAS; i++) {
+		for (int j = 0; j < MAX_CASILLAS; j++) {
+			if (getPieza(i, j) != nullptr && getPieza(i, j)->getColor() == Pieza::Negro) {
+				Vector origen(i, j);
+				if (tablero[i][j]->validarMovimiento(origen, posicionRey, *this)) {
+					exit(0); // Jaque detectado
+				}
+			}
+		}
+	}
+
 }
