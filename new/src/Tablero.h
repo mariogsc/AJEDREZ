@@ -33,6 +33,9 @@ public:
 	// FUNCIÓN PARA DIBUJAR EL TABLERO UTILIZANDO UNA MATRIZ DE CASILLAS Y ELEGIR EL COLOR SEGÚN EL EQUIPO SELECCIONADO
 	void DibujaTablero(ColorRGB color1, ColorRGB color2);
 	
+	//FUNCION PARA DIBUJAR INTERFAZ TURNOS
+	void dibujaTurno();
+	
 	// FUNCIONES PARA EL MANEJO DEL VECTOR DE PIEZAS (ARQUITECTURA DE POO)
 	void EliminarContenido();
 	bool agregar(Pieza* ,int i,int j);
