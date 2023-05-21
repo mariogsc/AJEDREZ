@@ -45,6 +45,7 @@ void Mundo::dibuja()
 		tablero.DibujaPiezas();
 		tablero.DibujaTablero(color1, color2);
 		tablero.getPieza(origen)->DibujaPosibles();
+		tablero.dibujaTurno();
 	}
 	
 	
