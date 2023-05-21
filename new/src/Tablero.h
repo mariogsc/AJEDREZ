@@ -24,6 +24,11 @@ class Tablero
 	Pieza* tablero[8][8];
 	int numero;
 	int turno; // SE HACE AQUI O EN MUNDO?
+	
+	Sprite* TurnoB = new Sprite("imagenes/TurnoB.png", 4.0, 4.0, 4.0, 4.0);
+	Sprite* TurnoN = new Sprite("imagenes/TurnoN.png", 4.0, 4.0, 4.0, 4.0);
+	
+	
 public:
 	
 	Tablero(); // Constructor por defecto de tablero
