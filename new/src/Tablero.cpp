@@ -9,6 +9,11 @@
 Tablero::Tablero() :NPiezas(0),NLista(0), turno(1) {
 	inicializa();
 	for (int i = 0; i < MAX; i++)lista[i] = nullptr;
+	TurnoB->setSize(1.05, 1.05);
+	TurnoB->setPos(10.3, 9.2);
+
+	TurnoN->setSize(0.85, 0.85);
+	TurnoN->setPos(11.6, 9.25);
 
 }
 
@@ -16,6 +21,12 @@ Tablero::~Tablero() {
 	for (int i = 0; i < MAX_CASILLAS; i++)
 		for (int j = 0; j < MAX_CASILLAS; j++)
 			delete tablero[i][j];
+
+}
+
+void Tablero::dibujaTurno() {
+	if (turno%2!=0)TurnoB->draw(); //Falta meter deletes
+	else if(turno%2==0) TurnoN->draw();
 
 }
 
