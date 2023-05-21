@@ -210,3 +210,34 @@ void Tablero::DibujaPosibles() {
 		lista[i]->DibujaCasilla(0.0005);
 	}
 }
+
+Vector Tablero::hayRey() {
+	//Vector aux
+	for (int i = 0; i < 8; i++) {
+		for (int j = 0; j < 8; j++) {
+			if ((getPieza(i, j) != nullptr) && getPieza(i, j)->getTipo() == Pieza::REY) return Vector{ i,j };
+		}
+	}
+}
+
+void Tablero::Jaque() {
+	Vector posRey;
+	for (int i = 0; i < 8; i++) {
+		for (int j = 0; j < 8; j++) {
+			if ((getPieza(i, j) != nullptr) && getPieza(i, j)->getTipo() == Pieza::REY);
+			posRey.x = 4;
+			posRey.y = 7;
+		}
+	}
+	std::cout << posRey.x<< posRey.y;
+	
+	for (int i = 0; i < 8; i++) {
+		for (int j = 0; j < 8; j++) {
+			if (getPieza({ i,j }) != nullptr) {
+				if (getPieza(i, j)->validarMovimiento({ i,j }, { (posRey.x, posRey.y) }, *this)) {
+					exit(0);
+				}
+			}
+		}
+	}
+}
