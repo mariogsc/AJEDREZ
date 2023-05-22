@@ -231,7 +231,7 @@ Vector Tablero::hayRey() {
 	}
 }
 
-void Tablero::Jaque() {
+bool Tablero::Jaque() {
 	///TURNO DE NEGRAS, TRATO DE BUSCAR QUE PIEZAS BLANCAS HACEN JAQUE AL REY NEGRO
 	Vector posicionRey;
 
@@ -252,7 +252,8 @@ void Tablero::Jaque() {
 			if (getPieza(i,j) != nullptr && getPieza(i,j)->getColor() == Pieza::Blanco) {
 				Vector origen(i, j);
 				if (tablero[i][j]->validarMovimiento(origen, posicionRey, *this)) {
-					exit(0); // Jaque detectado
+					//exit(0); // Jaque detectado
+					return true;
 				}
 			}
 		}
@@ -276,10 +277,102 @@ void Tablero::Jaque() {
 			if (getPieza(i, j) != nullptr && getPieza(i, j)->getColor() == Pieza::Negro) {
 				Vector origen(i, j);
 				if (tablero[i][j]->validarMovimiento(origen, posicionRey, *this)) {
-					exit(0); // Jaque detectado
+					//exit(0); // Jaque detectado
+					return true;
 				}
 			}
 		}
 	}
 
+}
+
+
+bool Tablero::jaqueMate() {
+	// Comprobar si hay jaque
+	if (Jaque()==false) {
+		return false; // No hay jaque, no puede haber jaque mate
+	}
+
+
+
+	//TURNO DE NEGRAS, SE COMPRUEBA SI EL REY BLANCO PELIGRA, Y SI SE PUEDE PONER ALGUNA PIEZA BLANCA ENTRE MEDIAS
+	
+	// Obtener la posición del rey
+	Vector posicionRey;
+	for (int i = 0; i < MAX_CASILLAS; i++) {
+		for (int j = 0; j < MAX_CASILLAS; j++) {
+			if (getPieza(i, j) != nullptr && getPieza(i, j)->getTipo() == Pieza::REY && getPieza(i, j)->getColor() == Pieza::Blanco && turno%2==0) {//si turno negras
+				posicionRey.x = i;
+				posicionRey.y = j;
+				break;
+			}
+		}
+	}
+
+	// Comprobar si alguna pieza blanca puede bloquear el jaque o capturar la pieza que hace jaque
+	for (int i = 0; i < MAX_CASILLAS; i++) {
+		for (int j = 0; j < MAX_CASILLAS; j++) {
+			if (getPieza(i, j) != nullptr && getPieza(i, j)->getColor() == Pieza::Blanco) {
+				Vector origen(i, j);
+				for (int x = 0; x < MAX_CASILLAS; x++) {
+					for (int y = 0; y < MAX_CASILLAS; y++) {
+						Vector destino(x, y);
+						if (tablero[i][j]->validarMovimiento(origen, destino, *this)) {
+							// Intentar mover la pieza a la posición de destino y comprobar si todavía hay jaque
+							Pieza* piezaDestino = getPieza(x, y);
+							mover(origen, destino);
+							bool sigueJaque = Jaque();
+							// Deshacer el movimiento
+							mover(destino, origen);
+							tablero[x][y] = piezaDestino;
+							tablero[i][j] = getPieza(i, j);
+							if (!sigueJaque) {
+								return false; // El jaque se puede bloquear o la pieza que hace jaque se puede capturar
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	//TURNO DE BLANCAS SE COMPRUEBA SI EL REY NEGRO PELIGRA
+	for (int i = 0; i < MAX_CASILLAS; i++) {
+		for (int j = 0; j < MAX_CASILLAS; j++) {
+			if (getPieza(i, j) != nullptr && getPieza(i, j)->getTipo() == Pieza::REY && getPieza(i, j)->getColor() == Pieza::Negro && turno % 2 != 0) {//si turno negras
+				posicionRey.x = i;
+				posicionRey.y = j;
+				break;
+			}
+		}
+	}
+
+	// Comprobar si alguna pieza blanca puede bloquear el jaque o capturar la pieza que hace jaque
+	for (int i = 0; i < MAX_CASILLAS; i++) {
+		for (int j = 0; j < MAX_CASILLAS; j++) {
+			if (getPieza(i, j) != nullptr && getPieza(i, j)->getColor() == Pieza::Blanco) {
+				Vector origen(i, j);
+				for (int x = 0; x < MAX_CASILLAS; x++) {
+					for (int y = 0; y < MAX_CASILLAS; y++) {
+						Vector destino(x, y);
+						if (tablero[i][j]->validarMovimiento(origen, destino, *this)) {
+							// Intentar mover la pieza a la posición de destino y comprobar si todavía hay jaque
+							Pieza* piezaDestino = getPieza(x, y);
+							mover(origen, destino);
+							bool sigueJaque = Jaque();
+							// Deshacer el movimiento
+							mover(destino, origen);
+							tablero[x][y] = piezaDestino;
+							tablero[i][j] = getPieza(i, j);
+							if (!sigueJaque) {
+								return false; // El jaque se puede bloquear o la pieza que hace jaque se puede capturar
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	return true; // No se puede evitar el jaque mate
 }
