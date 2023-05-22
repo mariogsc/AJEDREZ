@@ -10,7 +10,7 @@ using ETSIDI::Sprite;
 #include <Caballo.h>
 #include <Rey.h>
 #include <Reina.h>
-#include <Peon.h
+#include <Peon.h>
 
 #define MAX_CASILLAS 8
 #define MAX_PIEZAS 24
@@ -49,6 +49,8 @@ public:
 	void mover(Vector& origen, Vector& destino, Pieza* t[8][8]);
 	void DibujaPiezas();
 	void MoverPiezas();
+	bool Jaque();
+	booljaqueMate();
 	void Raton(int button, int state, int x, int y);
 	
 	// FUNCIONES DE INTERFAZ
