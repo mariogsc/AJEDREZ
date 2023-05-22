@@ -105,6 +105,7 @@ void Mundo::Raton(int button, int state, int x, int y) {
 					// Realizar el movimiento
 					tablero.mover(origen, destino); 
 					tablero.turno++;
+					if(tablero.jaqueMate()==true) ETSIDI::play("sonidos/error.wav");
 				}
 				else ETSIDI::play("sonidos/error.wav");
 			}
