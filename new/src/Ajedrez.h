@@ -2,7 +2,7 @@
 #include <Tablero.h>
 #include <ColorRGB.h>
 
-class Mundo
+class Ajedrez
 {
 	MenuInicial menu;
 	Tablero tablero;
@@ -21,5 +21,6 @@ public:
 	void dibuja();
 	void inicializa();
 	void Raton(int button, int state, int x, int y);
+	bool JaqueMate();
 
 };
