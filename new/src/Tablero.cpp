@@ -183,28 +183,46 @@ void Tablero::mover(Vector origen, Vector destino) {
 	if (origen.x < 0 || origen.y < 0 || origen.y >= 8 || origen.x >= 8) return;
 	if (destino.x < 0 || destino.y < 0 || destino.y >= 8 || destino.x >= 8) return;
 
-	if (tablero[destino.x][destino.y] != nullptr && tablero[origen.x][origen.y]->getColor() != tablero[destino.x][destino.y]->getColor()) {
-		eliminar(destino.x,destino.y);
+	if (tablero[origen.x][origen.y] == nullptr) return;
+
+	Pieza* piezaMovida = tablero[origen.x][origen.y];
+	Pieza* piezaCapturada = tablero[destino.x][destino.y];
+
+	if (piezaMovida->getColor() != (turno % 2 == 1 ? Pieza::Blanco : Pieza::Negro)) return;
+
+	if (piezaMovida->validarMovimiento(origen, destino,*this)==false) return;  // Verificar movimiento válido
+
+	// Realizar el movimiento
+	if (piezaCapturada != nullptr && piezaMovida->getColor() != piezaCapturada->getColor()) {
+		eliminar(destino.x, destino.y);
 		ETSIDI::play("sonidos/PiezaComida.wav");
 	}
 
 	tablero[destino.x][destino.y] = tablero[origen.x][origen.y];
-	tablero[origen.x][origen.y] = nullptr; // IMPORTANTE PONER EL PUNTERO A nullptr DESPUES DE MOVER
-}
+	tablero[origen.x][origen.y] = nullptr;  // IMPORTANTE -> poner el puntero a nullptr después de eliminar
 
-void Tablero::deshacerMovimiento(const Vector& origen, const Vector& destino, Pieza* piezaMovida, Pieza* piezaCapturada) {
-	// Revertir el movimiento del último movimiento realizado
-
-	// 1. Restaurar la pieza movida a su posición de origen
-	tablero[origen.x][origen.y] = piezaMovida;
-
-	// 2. Si se capturó una pieza, restaurarla a su posición original
-	if (piezaCapturada != nullptr) {
-		tablero[destino.x][destino.y] = piezaCapturada;
+	// Verificar si se pone en jaque al propio rey
+	if (turno % 2 == 1) {
+		if (HayJaqueBlancas()) {
+			// Movimiento inválido, pone en jaque al rey blanco
+			tablero[origen.x][origen.y] = tablero[destino.x][destino.y];
+			tablero[destino.x][destino.y] = piezaCapturada;
+			ETSIDI::play("sonidos/error.wav");
+			return;
+		}
 	}
 	else {
-		tablero[destino.x][destino.y] = nullptr;
+		if (HayJaqueNegras()) {
+			// Movimiento inválido, pone en jaque al rey negro
+			tablero[origen.x][origen.y] = tablero[destino.x][destino.y];
+			tablero[destino.x][destino.y] = piezaCapturada;
+			ETSIDI::play("sonidos/error.wav");
+			return;
+		}
 	}
+
+	// Actualizar el turno
+	turno++;
 }
 
 
@@ -218,17 +236,17 @@ void Tablero::CompruebaPosible(Vector origen) {
 	}
 }
 
-bool Tablero::HayJaque() {
+bool Tablero::HayJaqueBlancas() {
 	 
 	// turno impar->mueven blancas, jaque a negras
 	// turno par->mueven negras,jaque a blancas
-	Vector posicionRey = buscarRey(turno % 2 != 0 ? Pieza::Negro : Pieza::Blanco);
+	Vector posicionRey = buscarRey(Pieza::Blanco);
 
 	// Verificar si alguna pieza del oponente amenaza al rey actual
 	for (int x = 0; x < 8; x++) {
 		for (int y = 0; y < 8; y++) {
 			if (tablero[x][y] == nullptr);
-			else if (tablero[x][y]->getColor() == (turno % 2 != 0 ? Pieza::Blanco : Pieza::Negro))
+			else if (tablero[x][y]->getColor() == Pieza::Negro)
 			{
 
 				if (tablero[x][y]->validarMovimiento({x,y}, posicionRey, *this)==true) {
@@ -240,6 +258,43 @@ bool Tablero::HayJaque() {
 
 	return false;  // No hay jaque en el tablero actual
 }
+
+bool Tablero::HayJaqueNegras() {
+
+	// turno impar->mueven blancas, jaque a negras
+	// turno par->mueven negras,jaque a blancas
+	Vector posicionRey = buscarRey(Pieza::Negro);
+
+	// Verificar si alguna pieza del oponente amenaza al rey actual
+	for (int x = 0; x < 8; x++) {
+		for (int y = 0; y < 8; y++) {
+			if (tablero[x][y] == nullptr);
+			else if (tablero[x][y]->getColor() == Pieza::Blanco)
+			{
+
+				if (tablero[x][y]->validarMovimiento({ x,y }, posicionRey, *this) == true) {
+					return true;  // Hay una pieza del oponente que amenaza al rey
+				}
+			}
+		}
+	}
+
+	return false;  // No hay jaque en el tablero actual
+}
+
+Vector Tablero::buscarRey(Pieza::COLOR color) {
+	for (int x = 0; x < 8; x++) {
+		for (int y = 0; y < 8; y++) {
+			Pieza* pieza = getPieza(x, y);
+			if (pieza != nullptr && pieza->getTipo() == Pieza::REY && pieza->getColor() == color) {
+				return Vector(x, y);
+			}
+		}
+	}
+	// Si no se encuentra el rey, devuelve una posición inválida (-1, -1)
+	return Vector(-1, -1);
+}
+
 
 bool Tablero::agregar(Casilla* casilla) {
 	if (NLista < MAX) {
@@ -262,17 +317,4 @@ void Tablero::DibujaPosibles() {
 	{
 		lista[i]->DibujaCasilla(0.0005);
 	}
-}
-
-Vector Tablero::buscarRey(Pieza::COLOR color){
-	for (int x = 0; x < 8; x++) {
-		for (int y = 0; y < 8; y++) {
-			Pieza* pieza = getPieza(x, y);
-			if (pieza != nullptr && pieza->getTipo() == Pieza::REY && pieza->getColor() == color) {
-				return Vector(x, y);
-			}
-		}
-	}
-	// Si no se encuentra el rey, devuelve una posición inválida (-1, -1)
-	return Vector(-1, -1);
 }
