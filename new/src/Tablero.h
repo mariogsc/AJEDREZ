@@ -57,7 +57,7 @@ public:
 	int getTurno() { return turno; }
 
 	Pieza* getPieza(int i, int j) {
-		if (i < 0 || i >= 8 || j < 0 || j >= 8); // PORQUE DA ERROR ESTE RETURN 
+		if (i < 0 || i >= 8 || j < 0 || j >= 8){return nullptr;} // PORQUE DA ERROR ESTE RETURN 
 		else{
 			if (tablero[i][j] != nullptr)return tablero[i][j];
 		}
