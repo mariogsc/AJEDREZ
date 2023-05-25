@@ -400,3 +400,108 @@ bool Tablero::salirJaque() {
 	std::cout << "¡Jaque mate!" << std::endl;
 	return false;
 }
+
+/*
+// Se intenta implementar el jaque mate pero salta un error siempre
+bool Tablero::HayJaqueMateBlancas() {
+
+	Tablero tablero2(*this);
+
+	if (HayJaqueBlancas() == true) {
+		for (int i = 0; i < MAX_CASILLAS; i++) {
+			for (int j = 0; j < MAX_CASILLAS; j++) {
+
+				// Selecciono una pieza válida
+				if (tablero2.tablero[i][j] != nullptr) {
+					if (tablero2.tablero[i][j]->getColor() == Pieza::Negro) {
+						Vector origenvir = { i,j };
+
+						for (int m = 0; m < MAX_CASILLAS; m++) {
+							for (int n = 0; n < MAX_CASILLAS; n++) {
+								if (tablero2.tablero[i][j]->validarMovimiento(origenvir, { m,n }, tablero2) == true) {
+									tablero2.mover(origenvir, { m,n });
+
+									Pieza* piezaMovida = tablero2.tablero[origenvir.x][origenvir.y];
+									Pieza* piezaCapturada = tablero2.tablero[m][n];
+
+									// Verificar movimiento válido
+									if (piezaMovida->getColor() != (turno % 2 == 1 ? Pieza::Blanco : Pieza::Negro)) break;
+
+									if (piezaMovida->validarMovimiento(origenvir, {m,n}, tablero2) == false) break;
+
+									// Realizamos el movimiento
+									tablero2.tablero[m][n] = tablero2.tablero[origenvir.x][origenvir.y];
+									tablero2.tablero[origenvir.x][origenvir.y] = nullptr;
+
+									// Comprobamos si sigue habiendo Jaque
+									if (tablero2.HayJaqueBlancas() == false)return false;
+
+									// Deshacemos el movimiento
+									tablero2.tablero[origenvir.x][origenvir.y] = tablero2.tablero[m][n];
+									tablero2.tablero[m][n] = piezaCapturada;
+
+								}
+							}
+						}
+					}
+				}
+
+			}
+		}
+	}
+	else return false;
+
+	// Ninguno de los movimientos posibles evita el Jaque -> Jaque Mate
+	return true;
+}
+
+bool Tablero::HayJaqueMateNegras() {
+		Tablero tablero2(*this);
+
+		if (HayJaqueNegras() == true) {
+			for (int i = 0; i < MAX_CASILLAS; i++) {
+				for (int j = 0; j < MAX_CASILLAS; j++) {
+					if (tablero2.tablero[i][j] != nullptr) {
+						if (tablero2.tablero[i][j]->getColor() == Pieza::Blanco) {
+							Vector origenvir = { i,j };
+
+							for (int m = 0; m < MAX_CASILLAS; m++) {
+								for (int n = 0; n < MAX_CASILLAS; n++) {
+									if (tablero2.tablero[i][j]->validarMovimiento(origenvir, { m,n }, tablero2) == true) {
+										tablero2.mover(origenvir, { m,n });
+
+										Pieza* piezaMovida = tablero2.tablero[origenvir.x][origenvir.y];
+										Pieza* piezaCapturada = tablero2.tablero[m][n];
+
+										// Verificar movimiento válido
+										if (piezaMovida->getColor() != (turno % 2 == 1 ? Pieza::Blanco : Pieza::Negro)) break;
+
+										if (piezaMovida->validarMovimiento(origenvir, { m,n }, tablero2) == false) break;
+
+										// Realizamos el movimiento
+										tablero2.tablero[m][n] = tablero2.tablero[origenvir.x][origenvir.y];
+										tablero2.tablero[origenvir.x][origenvir.y] = nullptr;
+
+										// Comprobamos si sigue habiendo Jaque
+										if (tablero2.HayJaqueNegras() == false)return false;
+
+										// Deshacemos el movimiento
+										tablero2.tablero[origenvir.x][origenvir.y] = tablero2.tablero[m][n];
+										tablero2.tablero[m][n] = piezaCapturada;
+
+
+									}
+								}
+							}
+						}
+					}
+
+				}
+			}
+		}
+		else return false;
+
+		// Ninguno de los movimientos posibles evita el Jaque -> Jaque Mate
+		return true;
+	
+	}*/
