@@ -221,10 +221,23 @@ void Tablero::mover(Vector origen, Vector destino) {
 		}
 	}
 
+	coronacion();
 	// Actualizar el turno
 	turno++;
 }
 
+void Tablero::coronacion() {
+	for (int i = 0; i < MAX_CASILLAS; i++) {
+		if ((tablero[i][7] != nullptr) && (tablero[i][7]->getTipo() == Pieza::PEON) && (tablero[i][7]->getColor() == Pieza::Blanco)) {
+			eliminar(tablero[i][7]);
+			tablero[i][7] = new PiezaEspecial(Pieza::Blanco);
+		}
+		if ((tablero[i][0] != nullptr) && (tablero[i][0]->getTipo() == Pieza::PEON) && (tablero[i][0]->getColor() == Pieza::Negro)) {
+			eliminar(tablero[i][0]);
+			tablero[i][0] = new PiezaEspecial(Pieza::Negro);
+		}
+	}
+}
 
 void Tablero::CompruebaPosible(Vector origen) {
 	for (int i = 0; i < 8; i++) {
