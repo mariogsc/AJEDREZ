@@ -50,37 +50,26 @@ void Tablero::inicializa() {  // inicializacion de todas las fichas e inclusión
 	tablero[6][0] = new Caballo(Pieza::Blanco);
 	tablero[3][0] = new Reina(Pieza::Blanco);
 	tablero[4][0] = new Rey(Pieza::Blanco);
-	tablero[0][1] = new Peon(Pieza::Blanco);
-	tablero[1][1] = new Peon(Pieza::Blanco);
-	tablero[2][1] = new Peon(Pieza::Blanco);
-	tablero[3][1] = new Peon(Pieza::Blanco);
-	tablero[4][1] = new Peon(Pieza::Blanco);
-	tablero[5][1] = new Peon(Pieza::Blanco);
-	tablero[6][1] = new Peon(Pieza::Blanco);
-	tablero[7][1] = new Peon(Pieza::Blanco);
+	for (int i = 0; i < 8; i++) 
+	{
+		tablero[i][1] = new Peon(Pieza::Blanco);
+	}
 
 
 	// NEGRAS
 	tablero[7][7] = new Torre(Pieza::Negro);
 	tablero[2][7] = new Alfil(Pieza::Negro);
-	tablero[0][7] = new Torre(Pieza::Negro);
 	tablero[5][7] = new Alfil(Pieza::Negro);
+	tablero[0][7] = new Torre(Pieza::Negro);
 	tablero[1][7] = new Caballo(Pieza::Negro);
 	tablero[6][7] = new Caballo(Pieza::Negro);
 	tablero[3][7] = new Reina(Pieza::Negro);
 	tablero[4][7] = new Rey(Pieza::Negro);
-	tablero[0][6] = new Peon(Pieza::Negro);
-	tablero[1][6] = new Peon(Pieza::Negro);
-	tablero[2][6] = new Peon(Pieza::Negro);
-	tablero[3][6] = new Peon(Pieza::Negro);
-	tablero[4][6] = new Peon(Pieza::Negro);
-	tablero[5][6] = new Peon(Pieza::Negro);
-	tablero[6][6] = new Peon(Pieza::Negro);
-	tablero[7][6] = new Peon(Pieza::Negro);
+	for (int i = 0; i < 8; i++) 
+	{
+		tablero[i][6] = new Peon(Pieza::Negro);
+	}
 	
-	
-
-	//numero = MAX_PIEZAS;
 }
 
 
