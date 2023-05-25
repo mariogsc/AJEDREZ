@@ -53,6 +53,7 @@ public:
 	bool Jaque();
 	booljaqueMate();
 	void Raton(int button, int state, int x, int y);
+	void coronacion();
 	
 	// FUNCIONES DE INTERFAZ
 	int getTurno() { return turno; }
