@@ -11,6 +11,7 @@ using ETSIDI::Sprite;
 #include <Rey.h>
 #include <Reina.h>
 #include <Peon.h>
+#iclude <PiezaEspecial>
 
 #define MAX_CASILLAS 8
 #define MAX_PIEZAS 24
