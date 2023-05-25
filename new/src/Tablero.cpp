@@ -318,3 +318,72 @@ void Tablero::DibujaPosibles() {
 		lista[i]->DibujaCasilla(0.0005);
 	}
 }
+
+bool Tablero::salirJaque() {
+	Vector posicionRey;
+
+	// Buscar la posición del rey del turno actual
+	Pieza::COLOR colorTurno = (turno % 2 != 0) ? Pieza::Blanco : Pieza::Negro;
+
+	for (int i = 0; i < MAX_CASILLAS; i++) {
+		for (int j = 0; j < MAX_CASILLAS; j++) {
+			if (getPieza(i, j) != nullptr && getPieza(i, j)->getTipo() == Pieza::REY && getPieza(i, j)->getColor() == colorTurno) {
+				posicionRey.x = i;
+				posicionRey.y = j;
+				break;
+			}
+		}
+	}
+
+	// Comprobar si alguna pieza puede moverse para evitar el jaque
+	for (int i = 0; i < MAX_CASILLAS; i++) {
+		for (int j = 0; j < MAX_CASILLAS; j++) {
+			Pieza* pieza = getPieza(i, j);
+			if (pieza != nullptr) {
+				if (pieza->getColor() == colorTurno) {
+				Vector origen(i, j);
+				Vector destino;
+
+				// Generar todos los posibles movimientos de la pieza
+				for (int x = 0; x < MAX_CASILLAS; x++) {
+					for (int y = 0; y < MAX_CASILLAS; y++) {
+						destino.x = x;
+						destino.y = y;
+
+						if (pieza != nullptr){
+							if (tablero[i][j]->validarMovimiento(origen, destino, *this)) {
+								// Realizar el movimiento en un tablero temporal
+								Pieza* piezaTemp = tablero[destino.x][destino.y];
+								tablero[destino.x][destino.y] = tablero[i][j];
+								tablero[i][j] = nullptr;
+
+								// Comprobar si el movimiento evita el jaque
+								if (Jaque()==false) {
+									// El movimiento evita el jaque, realizar el movimiento en el tablero original
+									mover(origen, destino);
+									turno++;
+
+									// Liberar memoria de la pieza comida si corresponde
+									if (piezaTemp != nullptr) {
+										eliminar(piezaTemp);
+									}
+
+									return true;
+								}
+
+								// Deshacer el movimiento en el tablero temporal
+								tablero[i][j] = tablero[destino.x][destino.y];
+								tablero[destino.x][destino.y] = piezaTemp;
+							}
+						}
+					}
+				}
+			}
+		}
+		}
+	}
+
+	// No se encontró ninguna jugada para salir del jaque, es un jaque mate
+	std::cout << "¡Jaque mate!" << std::endl;
+	return false;
+}
