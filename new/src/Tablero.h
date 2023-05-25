@@ -54,6 +54,8 @@ public:
 	booljaqueMate();
 	void Raton(int button, int state, int x, int y);
 	void coronacion();
+	bool HayJaqueMateBlancas();
+	bool HayJaqueMateNegras();
 	
 	// FUNCIONES DE INTERFAZ
 	int getTurno() { return turno; }
