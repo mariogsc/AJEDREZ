@@ -24,7 +24,7 @@ void Tablero::dibujaTurno() {
 
 }
 
-//funcion para clonar un tablero, que m·s tarde usaremos para hacer el jaque mate
+//funcion para clonar un tablero, que m√°s tarde usaremos para hacer el jaque mate
 Tablero::Tablero(const Tablero& otro) {
 	for (int i = 0; i < 8; i++) {
 		for (int j = 0; j < 8; j++) {
@@ -56,7 +56,7 @@ Tablero::~Tablero() {
 
 }
 
-//funcion para inicializacion de todas las fichas e inclusiÛn en el tablero
+//funcion para inicializacion de todas las fichas e inclusi√≥n en el tablero
 void Tablero::inicializa() {  
 	// Inicializar todas las casillas con un puntero nulo
 	for (int i = 0; i < MAX_CASILLAS; i++) {
@@ -98,7 +98,7 @@ void Tablero::inicializa() {
 }
 
 
-// FUNCI”N PARA DIBUJAR EL TABLERO UTILIZANDO UNA MATRIZ DE CASILLAS Y ELEGIR EL COLOR SEG⁄N EL EQUIPO SELECCIONADO
+// FUNCI√ìN PARA DIBUJAR EL TABLERO UTILIZANDO UNA MATRIZ DE CASILLAS Y ELEGIR EL COLOR SEG√öN EL EQUIPO SELECCIONADO
 
 void Tablero::DibujaTablero(ColorRGB color1, ColorRGB color2) {
 	float tam = 1.0; //Definimos variables auxiliares para ir desplazando la casilla
@@ -205,12 +205,12 @@ bool Tablero::mover(Vector origen, Vector destino) {
 	quieroComer = tablero[destino.x][destino.y];
 
 	tablero[destino.x][destino.y] = tablero[origen.x][origen.y];
-	tablero[origen.x][origen.y] = nullptr;  // IMPORTANTE -> poner el puntero a nullptr despuÈs de eliminar
+	tablero[origen.x][origen.y] = nullptr;  // IMPORTANTE -> poner el puntero a nullptr despu√©s de eliminar
 
 	// Verificar si se pone en jaque al propio rey
 	if (turno % 2 == 1) {
 		if (HayJaqueBlancas()) {
-			// Movimiento inv·lido, pone en jaque al rey blanco
+			// Movimiento inv√°lido, pone en jaque al rey blanco
 			tablero[origen.x][origen.y] = tablero[destino.x][destino.y];
 			tablero[destino.x][destino.y] = quieroComer;
 			ETSIDI::play("sonidos/error.wav");
@@ -231,7 +231,7 @@ bool Tablero::mover(Vector origen, Vector destino) {
 	}
 	else {
 		if (HayJaqueNegras()) {
-			// Movimiento inv·lido, pone en jaque al rey blanco
+			// Movimiento inv√°lido, pone en jaque al rey blanco
 			tablero[origen.x][origen.y] = tablero[destino.x][destino.y];
 			tablero[destino.x][destino.y] = quieroComer;
 			ETSIDI::play("sonidos/error.wav");
@@ -256,8 +256,9 @@ bool Tablero::mover(Vector origen, Vector destino) {
 		NPiezas--;
 	}
 	// Actualizar el turno
-	turno++;
 	coronacionPeon();
+	turno++;
+	
 	return true;
 
 }
@@ -301,7 +302,7 @@ void Tablero::eliminarContenido() {
 	NLista = 0;
 }
 
-//se comprueba si el rey de blancas est· en jaque 
+//se comprueba si el rey de blancas est√° en jaque 
 bool Tablero::HayJaqueBlancas() {
 
 	// turno impar->mueven blancas, jaque a negras
@@ -325,7 +326,7 @@ bool Tablero::HayJaqueBlancas() {
 	return false;  // No hay jaque en el tablero actual
 }
 
-//se comprueba si el rey de negras est· en jaque
+//se comprueba si el rey de negras est√° en jaque
 bool Tablero::HayJaqueNegras() {
 
 	// turno impar->mueven blancas, jaque a negras
@@ -359,7 +360,7 @@ Vector Tablero::buscarRey(Pieza::COLOR color) {
 			}
 		}
 	}
-	// Si no se encuentra el rey, devuelve una posiciÛn inv·lida (-1, -1)
+	// Si no se encuentra el rey, devuelve una posici√≥n inv√°lida (-1, -1)
 	return Vector(-1, -1);
 }
 
@@ -379,10 +380,10 @@ void Tablero::coronacionPeon() {
 
 //EN ESTAS FUNCIONES HACEMOS EL JAQUE MATE
 //en estas funciones, lo que hacemos es clonar un nuevo tablero, en el que hacemos y deshacemos todos los posibles movimientos, en el momento que
-//encuentra un posible movimiento, autom·ticamente devuelve false. Pero si no encuentra ning˙n movimiento posible que deshaga el jaque, se devolver·
-//un true, significando asÌ que hay jaque mate
+//encuentra un posible movimiento, autom√°ticamente devuelve false. Pero si no encuentra ning√∫n movimiento posible que deshaga el jaque, se devolver√°
+//un true, significando as√≠ que hay jaque mate
 
-//esta funciÛn hemos conseguido que funcione, pero necesita mucha memoria y tarda mucho tiempo en cargar
+//esta funci√≥n hemos conseguido que funcione, pero necesita mucha memoria y tarda mucho tiempo en cargar
 
 
 // Se intenta implementar el jaque mate pero salta un error siempre
@@ -394,7 +395,7 @@ bool Tablero::HayJaqueMateBlancas() {
 		for (int i = 0; i < MAX_CASILLAS; i++) {
 			for (int j = 0; j < MAX_CASILLAS; j++) {
 
-				// Selecciono una pieza v·lida
+				// Selecciono una pieza v√°lida
 				if (tablero2.tablero[i][j] != nullptr && tablero2.tablero[i][j]->getColor() == Pieza::Negro) {
 
 					Vector origenvir = { i,j };
@@ -434,7 +435,7 @@ bool Tablero::HayJaqueMateNegras() {
 		for (int i = 0; i < MAX_CASILLAS; i++) {
 			for (int j = 0; j < MAX_CASILLAS; j++) {
 
-				// Selecciono una pieza v·lida
+				// Selecciono una pieza v√°lida
 				if (tablero2.tablero[i][j] != nullptr && tablero2.tablero[i][j]->getColor() == Pieza::Blanco) {
 
 					Vector origenvir = { i,j };
