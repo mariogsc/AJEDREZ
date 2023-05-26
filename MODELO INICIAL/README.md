@@ -1,0 +1,1 @@
+En esta carpeta se encuentra el primero de los modelos realizados en el que se conseguía el movimieto de las casillas desplazando un selector por el tablero y comparando su posición con la de la pieza.
