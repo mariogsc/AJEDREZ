@@ -1,0 +1,1 @@
+En esta carpeta se incluyen todos los archivos necesarios para el modelo final, en este se utiliza el ratón para la gestión de la selección y movimiento de las piezas, se mejora la estructura del movimiento de las piezas y se perfeccionan los modos de juego.
