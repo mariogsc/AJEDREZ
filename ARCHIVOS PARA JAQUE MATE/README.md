@@ -1,0 +1,1 @@
+En esta carpeta se encuentran los archivos .cpp y .h de las clases tablero y ajedrez para la implementación del jaque mate, este no ha sido añadido al modelo final por problemas en la gestión de los recuros. 
