@@ -1,3 +1,19 @@
-En este repositorio de Github se ha desarrollado el trabajo de Informatica Industrial y Comunicaciones, de tercer curso del grado de Ingenieria Eléctronica Industrial y Automática. 
-Se han guardado las dos versiones realizadas, la primera, "proyecto inicial" consta del primer formato que realizamos, el cual tuvimos que rechazar al ir desarrollando el programa, debido a la dificultad que suponia realizar cierta funciones con este planteamiento. Aunque no sea el trabajo que entregaremos dejamos constancia en este repositorio del progreso y objetivos alcanzados.
-Por otra parte, en la carpeta "proyecto final" aparece el trabajo que entregaremos con una estructura más indicada para desarrollar el juego.
+# Proyecto de Informática Industrial y Comunicaciones
+
+Este repositorio contiene el trabajo desarrollado para la asignatura de Informática Industrial y Comunicaciones, correspondiente al tercer curso del grado en Ingeniería Electrónica Industrial y Automática.
+
+## Estructura del Repositorio
+
+### Proyecto Inicial
+
+Esta carpeta contiene la primera versión del proyecto. Aunque este enfoque inicial fue descartado debido a las dificultades encontradas para implementar ciertas funciones, hemos decidido mantener esta versión en el repositorio como testimonio de nuestro progreso y de los objetivos alcanzados en las primeras etapas del desarrollo.
+
+### Proyecto Final
+
+Aquí se encuentra la versión final del proyecto, con una estructura optimizada para el desarrollo del juego. Este es el trabajo que se ha presentado oficialmente.
+
+## Demostración del Proyecto
+
+Para mostrar el resultado final del trabajo, hemos incluido el siguiente video demostrativo:
+
+[Ver Ejemplo de Uso - Modelo Final](https://github.com/mariogsc/AJEDREZ/blob/main/EJEMPLO%20USO%20-%20MODELO%20FINAL.mp4)
