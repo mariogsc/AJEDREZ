@@ -16,7 +16,4 @@ Aquí se encuentra la versión final del proyecto, con una estructura optimizada
 
 Para mostrar el resultado final del trabajo, hemos incluido el siguiente video demostrativo:
 
-([https://github.com/mariogsc/AJEDREZ/blob/main/EJEMPLO%20USO%20-%20MODELO%20FINAL.mp4](https://github.com/user-attachments/assets/3d6db362-b9e8-47ab-80db-5a45fc75c97e))
-
-
-
+https://github.com/user-attachments/assets/3d6db362-b9e8-47ab-80db-5a45fc75c97e
